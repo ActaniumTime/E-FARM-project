@@ -7,7 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/cart-styles.css">
+    <link rel="stylesheet" href="assets/css/farmers-styles.css">
+    <link rel="stylesheet" href="assets/css/farmer-profile-styles.css">
+
 </head>
 <body>
 
@@ -33,6 +37,16 @@
                     <a href="login.php" class="btn btn-sm login-btn">Увійти</a>
                     <a href="register.php" class="btn btn-sm register-btn">Зарегеструватися</a>
                 </div>
+                <div class="cart-icon-container">
+                    <a href="cart.php" class="cart-icon">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -45,7 +59,7 @@
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
-                <span>КАТАЛОГ</span>
+                <span>КАТЕГОРІЇ</span>
             </button>
 
             <button class="mobile-menu-toggle">
@@ -57,9 +71,9 @@
             </button>
 
             <ul class="main-menu">
-                <li><a href="#">Головна</a></li>
-                <li><a href="#">Про нас</a></li>
-                <li><a href="#">Партнерство</a></li>
+                <li><a href="index.php">Головна</a></li>
+                <li><a href="about.php">Про нас</a></li>
+                <li><a href="catalog.php">Каталог</a></li>
                 <li><a href="#">Фермери</a></li>
                 <li><a href="#">Блог</a></li>
                 <li><a href="#">Контакти</a></li>
@@ -265,8 +279,8 @@
         </button>
     </div>
     <div class="mobile-auth-buttons">
-        <a href="login.php" class="btn btn-primary">Увійти</a>
-        <a href="register.php" class="btn btn-outline">Зарегеструватися</a>
+        <a href="#" class="btn btn-primary">Увійти</a>
+        <a href="#" class="btn btn-outline">Зарегеструватися</a>
     </div>
     <div class="mobile-menu-body">
         <div class="mobile-menu-item">
@@ -306,6 +320,16 @@
             <div class="mobile-menu-item">
                 <a href="#" class="mobile-menu-link">Контакти</a>
             </div>
-            
+            <div class="mobile-menu-item">
+                <a href="cart.php" class="mobile-menu-link">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span>Кошик</span>
+                    <span class="mobile-cart-count" id="mobile-cart-count">0</span>
+                </a>
+            </div>
     </div>
 </div>

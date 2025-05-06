@@ -96,6 +96,10 @@
         </svg>
     </a>
 
-    <script src="../assets/js/scripts.js"></script>
+    <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/catalog.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/farmers.js"></script>
+
 </body>
 </html>

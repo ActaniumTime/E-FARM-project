@@ -1,12 +1,6 @@
 <?php include './partials/header.php'; ?>
 
-<!-- Page Content Placeholder -->
-<div style="padding: 50px 0; text-align: center; background-color: #f8f9fa;">
-    <div class="container">
-        <h2 style="margin-bottom: 20px; color: var(--primary);">Ласкаво просимо до FarmFresh</h2>
-        <p style="max-width: 800px; margin: 0 auto; color: var(--gray);">Відкривайте для себе новий світ свіжої продукції.</p>
-    </div>
-</div>
+
 
 <!-- Hero Section -->
 <section class="hero">
@@ -86,7 +80,7 @@
 <!-- Farmers Section -->
 <section class="farmers section">
     <div class="container">
-        <h2 class="section-title">Найкращі фермери</h2>
+        <h2 class="section-title">Наши ферми</h2>
         <div class="farmers-grid">
             <div class="farmer-card">
                 <div class="farmer-image">
