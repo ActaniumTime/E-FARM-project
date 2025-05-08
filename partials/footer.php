@@ -100,6 +100,7 @@
     <script src="assets/js/catalog.js"></script>
     <script src="assets/js/cart.js"></script>
     <script src="assets/js/farmers.js"></script>
+    <script src="assets/js/farmer-news.js"></script>
 
 </body>
 </html>

@@ -28,6 +28,92 @@
                 return false;
             }
         }
+
+        public function loadByUserID($UserID){
+            $query = "SELECT * FROM buyerprofiles WHERE UserID = ? LIMIT 1";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $UserID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $this->ProfileID = $row['ProfileID'];
+                $this->UserID = $row['UserID'];
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function AddBuyerProfile(){
+            $query = "INSERT INTO buyerprofiles (UserID, DeliveryAddress, PhotoPath) VALUES (?, ?, ?)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("iss", 
+                $this->UserID, 
+                $this->DeliveryAddress,
+                $this->PhotoPath
+            );
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function UpdateBuyerProfile(){
+            $query = "UPDATE buyerprofiles SET DeliveryAddress = ?, PhotoPath = ? WHERE ProfileID = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("ssi", 
+                $this->DeliveryAddress,
+                $this->PhotoPath,
+                $this->ProfileID
+            );
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function DeleteBuyerProfile(){
+            $query = "DELETE FROM buyerprofiles WHERE ProfileID = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $this->ProfileID);
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function setProfileID($ProfileID){
+            $this->ProfileID = $ProfileID;
+        }
+        public function setUserID($UserID){
+            $this->UserID = $UserID;
+        }
+        public function setPhotoPath($PhotoPath){
+            $this->PhotoPath = $PhotoPath;
+        }
+        public function setDeliveryAddress($DeliveryAddress){
+            $this->DeliveryAddress = $DeliveryAddress;
+        }
+
+        public function getProfileID(){
+            return $this->ProfileID;
+        }
+        public function getUserID(){
+            return $this->UserID;
+        }
+        public function getPhotoPath(){
+            return $this->PhotoPath;
+        }
+        public function getDeliveryAddress(){
+            return $this->DeliveryAddress;
+        }
+
+        
     }
 
 ?>

@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="assets/css/cart-styles.css">
     <link rel="stylesheet" href="assets/css/farmers-styles.css">
     <link rel="stylesheet" href="assets/css/farmer-profile-styles.css">
+    <link rel="stylesheet" href="assets/css/farmer-dashboard-styles.css">
+    <link rel="stylesheet" href="assets/css/farmer-news-style.css">
+
 
 </head>
 <body>
@@ -74,7 +77,7 @@
                 <li><a href="index.php">Головна</a></li>
                 <li><a href="about.php">Про нас</a></li>
                 <li><a href="catalog.php">Каталог</a></li>
-                <li><a href="#">Фермери</a></li>
+                <li><a href="farmers.php">Фермери</a></li>
                 <li><a href="#">Блог</a></li>
                 <li><a href="#">Контакти</a></li>
             </ul>

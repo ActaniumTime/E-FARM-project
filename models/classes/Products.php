@@ -34,6 +34,107 @@
                 return false;
             }
         }
+
+        public function AddProduct(){
+            $query = "INSERT INTO products (CategoryID, FarmerID, Name, Price, StockQuantity, CreatedAt) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("iissis",
+                $this->CategoryID, 
+                $this->FarmerID, 
+                $this->Name, 
+                $this->Price, 
+                $this->StockQuantity,
+                $this->CreatedAt);
+                if($stmt->execute()){
+                    return true;
+                } else {
+                    return false;
+                }
+        }
+
+        public function UpdateProduct(){
+            $query = "UPDATE products SET CategoryID = ?, FarmerID = ?, Name = ?, Price = ?, StockQuantity = ? WHERE ProductID = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("iissii",
+                $this->CategoryID, 
+                $this->FarmerID, 
+                $this->Name, 
+                $this->Price, 
+                $this->StockQuantity,
+                $this->ProductID);
+            if($stmt->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function DeleteProduct(){
+            $query = "DELETE FROM products WHERE ProductID = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $this->ProductID);
+            if($stmt->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function setCategoryID($CategoryID) {
+            $this->CategoryID = $CategoryID;
+        }
+
+        public function setFarmerID($FarmerID) {
+            $this->FarmerID = $FarmerID;
+        }
+
+        public function setName($Name) {
+            $this->Name = $Name;
+        }
+
+        public function setPrice($Price) {
+            $this->Price = $Price;
+        }
+
+        public function setStockQuantity($StockQuantity) {
+            $this->StockQuantity = $StockQuantity;
+        }
+
+        public function setCreatedAt($CreatedAt) {
+            $this->CreatedAt = $CreatedAt;
+        }
+
+        public function setProductID($ProductID) {
+            $this->ProductID = $ProductID;
+        }
+
+        public function getCategoryID() {
+            return $this->CategoryID;
+        }
+
+        public function getFarmerID() {
+            return $this->FarmerID;
+        }
+
+        public function getName() {
+            return $this->Name;
+        }
+
+        public function getPrice() {
+            return $this->Price;
+        }
+
+        public function getStockQuantity() {
+            return $this->StockQuantity;
+        }
+
+        public function getCreatedAt() {
+            return $this->CreatedAt;
+        }
+
+        public function getProductID() {
+            return $this->ProductID;
+        }
     }
 
 ?>
