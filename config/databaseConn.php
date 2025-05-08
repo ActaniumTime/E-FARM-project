@@ -7,7 +7,7 @@
     $username = 'root';
     $password = 'root';
     $database = 'farmproject';
-    $table = 'employers';
+    $table = 'users';
 
     $connection = new mysqli($host, $username, $password, $database, $port);
 

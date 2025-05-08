@@ -12,9 +12,15 @@
         $_SESSION['user_ID'] = $_COOKIE['user_ID'];
     }
 
-    $user = new user($connection);
-    $user->loadByID($_SESSION['user_ID']);
+    if (!isset($_SESSION['user_ID'])) {
+         echo "User not logged in. Redirecting to login page...";
+         header('Location: G:\Job\MAMP\htdocs\E-FARM PROJECT\index.php');
+         exit();
+    }
 
-    $testuser = new user($connection);
+    $emp = new user($connection);
+    $emp->loadByID($_SESSION['user_ID']);
+
+    $testEmp = new user($connection);
     
 ?>

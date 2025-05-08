@@ -63,6 +63,28 @@
                             <input type="password" id="confirm-password" name="confirm-password" placeholder="Підтвердіть пароль" required>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Оберить дату народження</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <input type="date" id="birthday" name="birthday" placeholder="Обреть дату народження..." required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Введить свії номер телефону</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <input type="text" id="phone" name="phone" placeholder="+380 66 58 59 846" required pattern="\d*" >
+                        </div>
+                    </div>
                     
                     <div class="form-group">
                         <div class="terms-checkbox">
