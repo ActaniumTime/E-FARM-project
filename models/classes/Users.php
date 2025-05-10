@@ -166,6 +166,20 @@
             return false;
         }
 
+        public function getNameByID($ID){
+            $query = "SELECT FullName FROM users WHERE UserID = ? LIMIT 1";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $ID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                return $row['FullName'];
+            } else {
+                return false;
+            }
+        }
 
         public function setUserID($UserID) {
             $this->UserID = $UserID;

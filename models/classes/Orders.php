@@ -105,6 +105,66 @@
             }
         }
 
+        public function GetOrderByOrderID($OrderID){
+            $query = "SELECT * FROM orders WHERE OrderID = ? LIMIT 1";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $OrderID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $orders = [];
+            while ($row = $result->fetch_assoc()) {
+                $order = new Orders($this->connection);
+                $order->OrderID = $row['OrderID'];
+                $order->BuyerID = $row['BuyerID'];
+                $order->Status = $row['Status'];
+                $order->TotalAmount = $row['TotalAmount'];
+                $order->DeliveryAdress = $row['DeliveryAdress'];
+                $order->CreatedAt = $row['CreatedAt'];
+                $order->ConfirmedAt = $row['ConfirmedAt'];
+                array_push($orders, $order);
+            }
+            return $orders;
+        }
+
+        public function GetAllOrdersByBuyerID($BuyerID){
+            $query = "SELECT * FROM orders WHERE BuyerID = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $BuyerID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $orders = [];
+            while ($row = $result->fetch_assoc()) {
+                $order = new Orders($this->connection);
+                $order->OrderID = $row['OrderID'];
+                $order->BuyerID = $row['BuyerID'];
+                $order->Status = $row['Status'];
+                $order->TotalAmount = $row['TotalAmount'];
+                $order->DeliveryAdress = $row['DeliveryAdress'];
+                $order->CreatedAt = $row['CreatedAt'];
+                $order->ConfirmedAt = $row['ConfirmedAt'];
+                array_push($orders, $order);
+            }
+            return $orders;
+        }
+
+        public function GetAllOrders(){
+            $query = "SELECT * FROM orders";
+            $result = $this->connection->query($query);
+            $orders = [];
+            while ($row = $result->fetch_assoc()) {
+                $order = new Orders($this->connection);
+                $order->OrderID = $row['OrderID'];
+                $order->BuyerID = $row['BuyerID'];
+                $order->Status = $row['Status'];
+                $order->TotalAmount = $row['TotalAmount'];
+                $order->DeliveryAdress = $row['DeliveryAdress'];
+                $order->CreatedAt = $row['CreatedAt'];
+                $order->ConfirmedAt = $row['ConfirmedAt'];
+                array_push($orders, $order);
+            }
+            return $orders;
+        }
+
         public function setOrderID($OrderID) {
             $this->OrderID = $OrderID;
         }

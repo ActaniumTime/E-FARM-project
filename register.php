@@ -7,7 +7,7 @@
                 <h2 class="auth-title">Створення аккаунта</h2>
                 <p class="auth-subtitle">Зареєструйтесь, щоб отримати доступ до всіх можливостей платформи</p>
                 
-                <form class="auth-form">
+                <form class="regist-form">
                     <div class="form-group">
                         <label for="username">Ім'я користувача</label>
                         <div class="input-wrapper">

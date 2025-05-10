@@ -91,6 +91,20 @@
             }
         }
 
+        public function GetPaymentAccountByUserID($UserID){
+            $query = "SELECT * FROM paymentaccounts WHERE UserID = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $UserID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                return $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                return false;
+            }
+        }
+
         public function setPaymentID($PaymentID) {
             $this->PaymentID = $PaymentID;
         }

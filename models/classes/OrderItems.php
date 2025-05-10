@@ -13,7 +13,7 @@
         }
 
         public function loadByID($OrderID){
-            $query = "SELECT * FROM order_items WHERE OrderID = ? LIMIT 1";
+            $query = "SELECT * FROM orderitems WHERE OrderID = ? LIMIT 1";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param("i", $OrderID);
             $stmt->execute();
@@ -33,7 +33,7 @@
         }
 
         public function loadByOrderID($OrderID){
-            $query = "SELECT * FROM order_items WHERE OrderID = ? LIMIT 1";
+            $query = "SELECT * FROM orderitems WHERE OrderID = ? LIMIT 1";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param("i", $OrderID);
             $stmt->execute();
@@ -51,7 +51,7 @@
         }
 
         public function loadByProductID($ProductID){
-            $query = "SELECT * FROM order_items WHERE ProductID = ? LIMIT 1";
+            $query = "SELECT * FROM orderitems WHERE ProductID = ? LIMIT 1";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param("i", $ProductID);
             $stmt->execute();
@@ -68,7 +68,7 @@
         }
 
         public function loadByOrderItemID($OrderItemID){
-            $query = "SELECT * FROM order_items WHERE OrderItemID = ? LIMIT 1";
+            $query = "SELECT * FROM orderitems WHERE OrderItemID = ? LIMIT 1";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param("i", $OrderItemID);
             $stmt->execute();
@@ -83,8 +83,8 @@
             }
         }
 
-                public function getOrderItemsByOrderID($OrderID) {
-            $query = "SELECT * FROM order_items WHERE OrderID = ?";
+        public function getOrderItemsByOrderID($OrderID) {
+            $query = "SELECT * FROM orderitems WHERE OrderID = ?";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param("i", $OrderID);
             $stmt->execute();
@@ -98,7 +98,7 @@
         }
 
         public function addOrderItem(){
-            $query = "INSERT INTO order_items (OrderID, ProductID, Quantity, PurchasePrice) VALUES (?, ?, ?, ?)";
+            $query = "INSERT INTO orderitems (OrderID, ProductID, Quantity, PurchasePrice) VALUES (?, ?, ?, ?)";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param("iiid",
                 $this->OrderID, 
@@ -113,7 +113,7 @@
         }
 
         public function updateOrderItem(){
-            $query = "UPDATE order_items SET OrderID = ?, ProductID = ?, Quantity = ?, PurchasePrice = ? WHERE OrderItemID = ?";
+            $query = "UPDATE orderitems SET OrderID = ?, ProductID = ?, Quantity = ?, PurchasePrice = ? WHERE OrderItemID = ?";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param("iiidi",
                 $this->OrderID, 
@@ -129,11 +129,24 @@
         }
 
         public function deleteOrderItem(){
-            $query = "DELETE FROM order_items WHERE OrderItemID = ?";
+            $query = "DELETE FROM orderitems WHERE OrderItemID = ?";
             $stmt = $this->connection->prepare($query);
             $stmt->bind_param("i", $this->OrderItemID);
             if($stmt->execute()){
                 return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function GetAllOrderItemsByOrderID($orderID){
+            $query = "SELECT * FROM orderitems WHERE OrderID = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $orderID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                return $result->fetch_all(MYSQLI_ASSOC);
             } else {
                 return false;
             }

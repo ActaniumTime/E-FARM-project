@@ -1,6 +1,6 @@
 <?php
 
-    class Rewies{
+    class Reviews{
         private $connection;
         private $RewiesID;
         private $ProductID;
@@ -71,6 +71,20 @@
             $stmt->bind_param("i", $this->RewiesID);
             if($stmt->execute()){
                 return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function GettAllByProductID($ProductID){
+            $query = "SELECT * FROM rewies WHERE ProductID = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $ProductID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                return $result;
             } else {
                 return false;
             }

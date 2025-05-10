@@ -93,6 +93,47 @@
             }
         }
 
+        public function getNewsDataByNewsID($newsID){
+            $query = "SELECT * FROM news WHERE NewsID = ? LIMIT 1";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $newsID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                return $result->fetch_assoc();
+            } else {
+                return null;
+            }
+        }
+
+        public function getAllNews(){
+            $query = "SELECT * FROM news";
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                return $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                return null;
+            }
+        }
+
+        public function GetAllNewsByAuthorID($AuthID){
+            $query = "SELECT * FROM news WHERE AuthorID = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $AuthID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                return $result->fetch_all(MYSQLI_ASSOC);
+            } else {
+                return null;
+            }
+        }
+
         public function setNewsID($NewsID) {
             $this->NewsID = $NewsID;
         }

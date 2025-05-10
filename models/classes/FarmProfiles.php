@@ -136,6 +136,21 @@
             return $stmt->execute();
         }
 
+        public function GetFarmerNameByID($ProfileID){
+            $query = "SELECT FullName FROM users WHERE UserID = (SELECT UserID FROM farmprofiles WHERE ProfileID = ?)";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bind_param("i", $ProfileID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                return $row['FullName'];
+            } else {
+                return false;
+            }
+        }
+
         public function DeleteFarmProfile(){
             $query = "DELETE FROM farmprofiles WHERE ProfileID = ?";
             $stmt = $this->connection->prepare($query);

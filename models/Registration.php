@@ -37,7 +37,6 @@
             exit;
         } else {
             $error = "Invalid email or password.";
-            require_once 'app/views/auth/login.php';
         }
     }
 

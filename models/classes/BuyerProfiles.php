@@ -87,6 +87,31 @@
             }
         }
 
+    public function getProfileByID($id) {
+        $stmt = $this->connection->prepare("SELECT * FROM buyerprofiles WHERE ProfileID = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result && $result->num_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            return null;
+        }
+    }
+
+    public function getAllProfiles() {
+        $sql = "SELECT * FROM buyerprofiles";
+        $result = $this->connection->query($sql);
+        $profiles = [];
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $profiles[] = $row;
+            }
+        }
+        return $profiles;
+    }
+
+
         public function setProfileID($ProfileID){
             $this->ProfileID = $ProfileID;
         }

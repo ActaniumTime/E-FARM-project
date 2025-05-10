@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  
+
   const products = [
     {
       id: 1,
