@@ -1,7 +1,12 @@
 <?php include './partials/header.php'; ?>
-<style>
-    
-</style>
+<?php include './models/GetData/catalogData.php'; ?>
+<?php 
+require_once './models/GetData/products.php'; 
+$productsData = getProducts();
+?>
+
+
+
 <section class="catalog-section">
     <div class="container">
         <div class="catalog-header">
@@ -55,37 +60,14 @@
             <div class="catalog-sidebar">
                 <div class="filter-section">
                     <h3 class="filter-title">Категорії</h3>
-                    <div class="filter-options">
-                        <label class="filter-option">
-                            <input type="checkbox" name="category" value="dairy">
-                            <span class="checkmark"></span>
-                            <span>Молочні продукти</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="category" value="meat">
-                            <span class="checkmark"></span>
-                            <span>М'ясо та птиця</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="category" value="vegetables">
-                            <span class="checkmark"></span>
-                            <span>Овочі</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="category" value="fruits">
-                            <span class="checkmark"></span>
-                            <span>Фрукти</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="category" value="bakery">
-                            <span class="checkmark"></span>
-                            <span>Хлібобулочні вироби</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="category" value="honey">
-                            <span class="checkmark"></span>
-                            <span>Мед та продукти бджільництва</span>
-                        </label>
+                    <div class="filter-options" id="categories-filter">
+                        <?php foreach ($categories as $category): ?>
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="<?= htmlspecialchars($category['slug']) ?>">
+                                <span class="checkmark"></span>
+                                <span><?= htmlspecialchars($category['name']) ?></span>
+                            </label>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
@@ -154,35 +136,19 @@
                 </div>
 
                 <div class="filter-section">
-                    <h3 class="filter-title">Фермери</h3>
-                    <div class="filter-options">
+                <h3 class="filter-title">Фермери</h3>
+                <div class="filter-options" id="farmers-filter">
+                    <?php foreach ($farmers as $farmer): ?>
                         <label class="filter-option">
-                            <input type="checkbox" name="farmer" value="farmer1">
+                            <input type="checkbox" name="farmer" value="<?= htmlspecialchars($farmer['id']) ?>">
                             <span class="checkmark"></span>
-                            <span>Олександра Харченко</span>
+                            <span><?= htmlspecialchars($farmer['name']) ?></span>
                         </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="farmer" value="farmer2">
-                            <span class="checkmark"></span>
-                            <span>Віктор Литвинчук</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="farmer" value="farmer3">
-                            <span class="checkmark"></span>
-                            <span>Олександр Орлов</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="farmer" value="farmer4">
-                            <span class="checkmark"></span>
-                            <span>Еко-ферма "Зелений луг"</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="farmer" value="farmer5">
-                            <span class="checkmark"></span>
-                            <span>Ферма "Молочний край"</span>
-                        </label>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
+
+                </div>
+
 
                 <div class="filter-actions">
                     <button class="btn btn-primary" id="apply-filters">Застосувати</button>
@@ -400,5 +366,12 @@
         </div>
     </div>
 </section>
+
+<!-- Pass PHP data to JavaScript -->
+<script>
+    window.productsData = <?= json_encode($productsData, JSON_UNESCAPED_UNICODE); ?>;
+</script>
+
+
 
 <?php include './partials/footer.php'; ?>

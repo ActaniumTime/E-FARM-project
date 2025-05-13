@@ -1,43 +1,67 @@
-<?php
+    <?php
+// Включаем вывод ошибок
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-    require_once __DIR__ . 'classes/Users.php';
-    require_once __DIR__ . 'classes/EncryptSystem.php';
+require_once __DIR__ . '/../config/databaseConn.php';
+$conn = getConnection();
 
-    if($_SERVER['REQUEST_METHOD']=== "POST"){
-        header('Content-Type: application/json');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
 
-        $user = new User($connection);
+    // Проверяем, что все данные пришли
+    $username         = trim($_POST['username'] ?? '');
+    $email            = trim($_POST['email'] ?? '');
+    $password         = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm-password'] ?? '';
+    $termsAccepted    = isset($_POST['terms']);
 
-        $data = json_decode(file_get_contents("php://input"), true);
-
-        $user->setFullName($data['username']);
-        $user->setEmail($data['email']);
-
-        $password = new Enigma();
-        $passwordHash = $password->encrypt($data['password']);
-
-        $user->setPasswordHash($passwordHash);
-        $user->setBirthDay($data['birthday']);
-        $user->setPhone($data['phone']);
-        $user->setAddress(null);
-        $user->setRole('Покупець');
-        
-        $user->setRegistrationDate(date('Y-m-d H:i:s'));
-        $user->setAuthToken(null);
-        $user->addUser();   
-        
-
-        $email = $data['email'];
-        $password = $data['password'];
-
-        $tempUser = new User($connection);
-        if ($tempUser->verify($email, $password)) {
-            $_SESSION['user_ID'] = $tempUser->getUserID();
-            header('Location: ../index.php');
-            exit;
-        } else {
-            $error = "Invalid email or password.";
-        }
+    // Валидация
+    if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
+        echo json_encode(["success" => false, "message" => "Будь ласка, заповніть всі поля."]);
+        exit;
     }
 
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(["success" => false, "message" => "Некоректний email."]);
+        exit;
+    }
+
+    if ($password !== $confirm_password) {
+        echo json_encode(["success" => false, "message" => "Паролі не співпадають."]);
+        exit;
+    }
+
+    if (!$termsAccepted) {
+        echo json_encode(["success" => false, "message" => "Ви повинні прийняти умови використання."]);
+        exit;
+    }
+
+        $check = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
+    $check->bind_param("ss", $username, $email);
+    $check->execute();
+    $check->store_result();
+
+    if ($check->num_rows > 0) {
+        echo json_encode(["success" => false, "message" => "Ім'я користувача або email вже зайняті."]);
+        $check->close();
+        exit;
+    }
+    $check->close();
+    // Хешируем пароль
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+    // Готовим SQL-запрос
+    $stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, isFarmer, isAdmin) VALUES (?, ?, ?, 0, 0)");
+    $stmt->bind_param("sss", $username, $email, $passwordHash);
+
+    if ($stmt->execute()) {
+        echo json_encode(["success" => true, "message" => "Реєстрація пройшла успішно."]);
+    } else {
+        echo json_encode(["success" => false, "message" => "Помилка при реєстрації: " . $stmt->error]);
+    }
+
+    $stmt->close();
+    $conn->close();
+}
 ?>

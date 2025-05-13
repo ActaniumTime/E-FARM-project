@@ -1,4 +1,10 @@
-<?php include './partials/header.php'; ?>
+<?php 
+include './partials/header.php';
+require_once './models/GetData/farmers_data.php';
+
+// Get all categories for the filter dropdown
+$categories = getCategories();
+?>
 
 <section class="farmers-hero">
     <div class="container">
@@ -30,11 +36,9 @@
                 <label for="farmers-filter">Фільтрувати за:</label>
                 <select id="farmers-filter" class="farmers-filter">
                     <option value="all">Всі категорії</option>
-                    <option value="dairy">Молочні продукти</option>
-                    <option value="meat">М'ясо та птиця</option>
-                    <option value="vegetables">Овочі та фрукти</option>
-                    <option value="honey">Мед та продукти бджільництва</option>
-                    <option value="bakery">Хлібобулочні вироби</option>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['name']); ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>
@@ -92,4 +96,134 @@
         </div>
     </div>
 </section>
+
+<!-- Add JavaScript to load farmers from the API -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const farmersGrid = document.getElementById('farmers-grid');
+    const farmersEmpty = document.getElementById('farmers-empty');
+    const searchInput = document.getElementById('farmers-search-input');
+    const searchClear = document.getElementById('farmers-search-clear');
+    const categoryFilter = document.getElementById('farmers-filter');
+    const resetSearchBtn = document.getElementById('reset-farmers-search');
+    
+    let currentSearch = '';
+    let currentCategory = 'all';
+    
+    // Load farmers based on current filters
+    function loadFarmers() {
+        // Build query string
+        let url = './models/GetData/get_farmers.php';
+        const params = [];
+        
+        if (currentSearch) {
+            params.push(`search=${encodeURIComponent(currentSearch)}`);
+        }
+        
+        if (currentCategory !== 'all') {
+            params.push(`category=${encodeURIComponent(currentCategory)}`);
+        }
+        
+        if (params.length > 0) {
+            url += '?' + params.join('&');
+        }
+        
+        // Show loading state
+        farmersGrid.innerHTML = '<div class="loading">Завантаження...</div>';
+        
+        // Fetch farmers
+        fetch(url)
+            .then(response => response.json())
+            .then(farmers => {
+                if (farmers.length === 0) {
+                    // Show empty state
+                    farmersGrid.innerHTML = '';
+                    farmersEmpty.style.display = 'flex';
+                } else {
+                    // Render farmers
+                    farmersEmpty.style.display = 'none';
+                    renderFarmers(farmers);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading farmers:', error);
+                farmersGrid.innerHTML = '<div class="error">Помилка завантаження даних. Спробуйте пізніше.</div>';
+            });
+    }
+    
+    // Render farmers to the grid
+    function renderFarmers(farmers) {
+        farmersGrid.innerHTML = '';
+        
+        farmers.forEach(farmer => {
+            // Create categories HTML
+            const categoriesHtml = farmer.categories.map(cat => 
+                `<span class="farmer-category">${cat.name}</span>`
+            ).join('');
+            
+            // Create farmer card
+            const farmerCard = document.createElement('div');
+            farmerCard.className = 'farmer-card';
+            farmerCard.innerHTML = `
+                <div class="farmer-image">
+                    <img src="${farmer.image}" alt="${farmer.name}">
+                </div>
+                <div class="farmer-content">
+                    <h3 class="farmer-name">${farmer.name}</h3>
+                    <div class="farmer-location">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span>${farmer.location}</span>
+                    </div>
+                    <div class="farmer-categories">
+                        ${categoriesHtml}
+                    </div>
+                    <p class="farmer-description">${farmer.description}</p>
+                    <a href="farmer-profile.php?id=${farmer.id}" class="btn btn-outline">Детальніше</a>
+                </div>
+            `;
+            
+            farmersGrid.appendChild(farmerCard);
+        });
+    }
+    
+    // Event listeners
+    searchInput.addEventListener('input', function() {
+        currentSearch = this.value.trim();
+        if (currentSearch === '') {
+            searchClear.style.display = 'none';
+        } else {
+            searchClear.style.display = 'block';
+        }
+        loadFarmers();
+    });
+    
+    searchClear.addEventListener('click', function() {
+        searchInput.value = '';
+        currentSearch = '';
+        this.style.display = 'none';
+        loadFarmers();
+    });
+    
+    categoryFilter.addEventListener('change', function() {
+        currentCategory = this.value;
+        loadFarmers();
+    });
+    
+    resetSearchBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        currentSearch = '';
+        searchClear.style.display = 'none';
+        categoryFilter.value = 'all';
+        currentCategory = 'all';
+        loadFarmers();
+    });
+    
+    // Initial load
+    loadFarmers();
+});
+</script>
+
 <?php include './partials/footer.php'; ?>

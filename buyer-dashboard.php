@@ -22,48 +22,60 @@
             <ul>
                 <li><a href="#" class="dashboard-nav-item active" data-section="profile-section">Профіль</a></li>
                 <li><a href="#" class="dashboard-nav-item" data-section="orders-section">Мої покупки</a></li>
-                <li><a href="#" class="dashboard-nav-item" data-section="favorites-section">Улюблені товари</a></li>
                 <li><a href="farmer-dashboard.php" class="dashboard-nav-item" data-section="external">Перейти до кабинету фермера</a></li>
-
             </ul>
         </nav>
     </div>
 
-    <!-- Main Content -->
-    <div class="dashboard-content">
-        <!-- Profile Section -->
-        <div class="dashboard-section active" id="profile-section">
-            <h2>Мій профіль</h2>
-            <form class="profile-form">
-                <div class="form-group">
-                    <label for="profile-image">Фото профілю</label>
-                    <input type="file" id="profile-image">
-                </div>
-                <div class="form-group">
-                    <label for="first-name">Ім'я</label>
-                    <input type="text" id="first-name" value="Олена">
-                </div>
-                <div class="form-group">
-                    <label for="last-name">Прізвище</label>
-                    <input type="text" id="last-name" value="Іванова">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" value="olena@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Телефон</label>
-                    <input type="tel" id="phone" value="+380 97 123 4567">
-                </div>
-                <div class="form-group">
-                    <label for="address">Адреса доставки</label>
-                    <input type="text" id="address" value="м. Львів, вул. Зеленa, 12">
-                </div>
-                <button type="submit" class="btn btn-primary">Зберегти зміни</button>
-            </form>
-        </div>
 
-        <!-- Orders Section -->
+    <div class="dashboard-content">
+    <div class="dashboard-section active" id="profile-section">
+        <h2>Мій профіль</h2>
+        <form class="profile-form">
+            <div class="form-group">
+                <label for="profile-image">Фото профілю (Аватарка)</label>
+                <input type="file" id="profileImage" name="profileImage">
+            </div>
+
+            <div class="form-group">
+                <label for="userID">UserID</label>
+                <input type="text" id="userID" name="userID" placeholder="Ваш унікальний ID">
+            </div>
+
+            <div class="form-group">
+                <label for="userName">Ім'я користувача</label>
+                <input type="text" id="userName" name="userName" placeholder="Введіть ім'я користувача">
+            </div>
+
+            <div class="form-group">
+                <label for="age">Вік</label>
+                <input type="number" id="age" name="age" placeholder="Введіть ваш вік">
+            </div>
+
+            <div class="form-group">
+                <label for="dateOfBD">Дата народження</label>
+                <input type="date" id="dateOfBD" name="dateOfBD">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="example@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="cardNumber">Номер картки</label>
+                <input type="text" id="cardNumber" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Адреса</label>
+                <input type="text" id="address" name="address" placeholder="м. Київ, вул. Хрещатик, 1">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Зберегти зміни</button>
+        </form>
+    </div>
+
         <div class="dashboard-section" id="orders-section">
             <h2>Історія покупок</h2>
             <table class="orders-table">
@@ -123,11 +135,10 @@
 </div>
 
 <script>
-    // Переключение разделов дашборда
     document.querySelectorAll('.dashboard-nav-item').forEach(item => {
         item.addEventListener('click', function(e) {
             const sectionId = this.getAttribute('data-section');
-            if (sectionId === 'external') return; // Пропустить внешнюю ссылку
+            if (sectionId === 'external') return; 
 
             e.preventDefault();
             document.querySelectorAll('.dashboard-nav-item').forEach(nav => nav.classList.remove('active'));
@@ -139,8 +150,43 @@
             document.getElementById(sectionId).classList.add('active');
         });
     });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const profileForm = document.querySelector('.profile-form');
+
+    profileForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(profileForm);
+
+        fetch('./models/updateBuyerData.php', {
+            method: 'POST',
+            body: formData, // НЕ указываем Content-Type вручную!
+        })
+        .then(async response => {
+            const contentType = response.headers.get('content-type');
+            const isJson = contentType && contentType.includes('application/json');
+            const data = isJson ? await response.json() : await response.text();
+
+            if (!response.ok) {
+                const message = typeof data === 'string' ? data : (data.message || 'Невідома помилка');
+                throw new Error(`Статус ${response.status}: ${message}`);
+            }
+
+            if (typeof data === 'object' && data.success) {
+                alert('Профіль успішно оновлено!' + (data.message ? `\n${data.message}` : ''));
+            } else {
+                const message = typeof data === 'string' ? data : (data.message || 'Невідома помилка');
+                alert('Помилка оновлення профілю: ' + message);
+            }
+        })
+        .catch(error => {
+            console.error('Помилка відправки форми:', error);
+            alert('Виникла помилка: ' + error.message);
+        });
+    });
+});
+
+
 </script>
-
-
-<script src="buyer-dashboard.js"></script>
 <?php include './partials/footer.php'; ?>

@@ -7,7 +7,7 @@
                 <h2 class="auth-title">Вхід в аккаунт</h2>
                 <p class="auth-subtitle">Увійдіть, щоб отримати доступ до своїх замовлень та особистих даних</p>
                 
-                <form class="auth-form">
+                <form class="auth-form" id="login-form">
                     <div class="form-group">
                         <label for="username">Ім'я користувача або Email</label>
                         <div class="input-wrapper">
@@ -58,5 +58,46 @@
         </div>
     </div>
 </section>
+<script>
+document.querySelector('.auth-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target; // 🔴 Этого не хватает
+    const formData = new FormData(form);
+
+    const response = await fetch("models/Login.php", {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await response.json();
+
+    // Очистка предыдущих сообщений
+    form.querySelectorAll(".success-message, .error-message").forEach(el => el.remove());
+
+    const message = document.createElement("div");
+    message.style.padding = "1rem";
+    message.style.borderRadius = "var(--border-radius-sm)";
+    message.style.marginBottom = "1rem";
+    message.style.textAlign = "center";
+    message.style.fontWeight = "bold";
+
+    if (result.success) {
+        message.classList.add("success-message");
+        message.style.backgroundColor = "#28a745";
+        message.style.color = "#fff";
+        message.textContent = result.message;
+        form.prepend(message);
+        setTimeout(() => window.location.href = "buyer-dashboard.php", 1000);
+    } else {
+        message.classList.add("error-message");
+        message.style.backgroundColor = "#dc3545";
+        message.style.color = "#fff";
+        message.textContent = result.message;
+        form.prepend(message);
+    }
+});
+
+</script>
 
 <?php include './partials/footer.php'; ?>

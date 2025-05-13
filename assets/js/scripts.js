@@ -1,4 +1,4 @@
-
+// SVG Icon definitions
 const iconDefinitions = {
   home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>',
   search: '<circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>',
@@ -28,7 +28,7 @@ const iconDefinitions = {
     '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>',
 }
 
-
+// Mobile Menu Toggle
 const mobileMenuToggle = document.querySelector(".mobile-menu-toggle")
 const mobileMenu = document.querySelector(".mobile-menu")
 const mobileMenuClose = document.querySelector(".mobile-menu-close")
@@ -63,7 +63,7 @@ mobileSubmenuToggles.forEach((toggle) => {
   })
 })
 
-
+// Catalog Dropdown
 const catalogButton = document.querySelector(".catalog-button")
 const catalogDropdown = document.querySelector(".catalog-dropdown")
 
@@ -77,7 +77,7 @@ document.addEventListener("click", (e) => {
   }
 })
 
-
+// Products Navigation
 const productsNavItems = document.querySelectorAll(".products-nav-item")
 
 productsNavItems.forEach((item) => {
@@ -89,20 +89,20 @@ productsNavItems.forEach((item) => {
   })
 })
 
-
+// Add to Cart Animation
 const addToCartButtons = document.querySelectorAll(".add-to-cart")
 
 addToCartButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
     e.preventDefault()
 
-    
+    // Animation
     button.classList.add("added")
     setTimeout(() => {
       button.classList.remove("added")
     }, 1000)
 
-    
+    // Notification
     const notification = document.createElement("div")
     notification.textContent = "Товар додано до кошика!"
     notification.style.position = "fixed"
@@ -135,7 +135,7 @@ addToCartButtons.forEach((button) => {
   })
 })
 
-
+// Icon hover effects
 const iconElements = document.querySelectorAll(".icon")
 
 iconElements.forEach((icon) => {
@@ -153,7 +153,7 @@ iconElements.forEach((icon) => {
   }
 })
 
-
+// Back to top button
 const backToTopButton = document.querySelector(".back-to-top")
 
 window.addEventListener("scroll", () => {
@@ -169,7 +169,7 @@ backToTopButton.addEventListener("click", (e) => {
   window.scrollTo({ top: 0, behavior: "smooth" })
 })
 
-
+// Password toggle functionality
 const passwordToggles = document.querySelectorAll(".password-toggle")
 
 passwordToggles.forEach((toggle) => {
@@ -178,7 +178,7 @@ passwordToggles.forEach((toggle) => {
     const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
     passwordInput.setAttribute("type", type)
 
-    
+    // Toggle eye icon
     if (type === "text") {
       toggle.innerHTML = `<svg class="icon" viewBox="0 0 24 24">
         <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
@@ -193,7 +193,7 @@ passwordToggles.forEach((toggle) => {
   })
 })
 
-
+// Password strength meter
 const passwordInput = document.getElementById("password")
 if (passwordInput) {
   const strengthBar = document.querySelector(".strength-progress")
@@ -226,14 +226,14 @@ if (passwordInput) {
   })
 }
 
-
+// Form validation
 const authForms = document.querySelectorAll(".auth-form")
 
 authForms.forEach((form) => {
   form.addEventListener("submit", (e) => {
     e.preventDefault()
 
-    
+    // Simple validation example
     let isValid = true
     const inputs = form.querySelectorAll("input[required]")
 
@@ -242,7 +242,7 @@ authForms.forEach((form) => {
         isValid = false
         input.classList.add("error")
 
-        
+        // Add error message if it doesn't exist
         let errorMessage = input.parentElement.nextElementSibling
         if (!errorMessage || !errorMessage.classList.contains("error-message")) {
           errorMessage = document.createElement("div")
@@ -256,7 +256,7 @@ authForms.forEach((form) => {
       } else {
         input.classList.remove("error")
 
-        
+        // Remove error message if it exists
         const errorMessage = input.parentElement.nextElementSibling
         if (errorMessage && errorMessage.classList.contains("error-message")) {
           errorMessage.remove()
@@ -264,7 +264,7 @@ authForms.forEach((form) => {
       }
     })
 
-    
+    // Check password confirmation if it exists
     const password = form.querySelector("#password")
     const confirmPassword = form.querySelector("#confirm-password")
 
@@ -272,7 +272,7 @@ authForms.forEach((form) => {
       isValid = false
       confirmPassword.classList.add("error")
 
-      
+      // Add error message if it doesn't exist
       let errorMessage = confirmPassword.parentElement.nextElementSibling
       if (!errorMessage || !errorMessage.classList.contains("error-message")) {
         errorMessage = document.createElement("div")
@@ -285,79 +285,98 @@ authForms.forEach((form) => {
       }
     }
 
-    if (isValid) {
-      
-      console.log("Form submitted successfully")
+    const isLoginForm = form.id === "login-form";
+const isRegisterForm = form.id === "register-form";
 
-      
-      const successMessage = document.createElement("div")
-      successMessage.style.backgroundColor = "#28a745"
-      successMessage.style.color = "#fff"
-      successMessage.style.padding = "1rem"
-      successMessage.style.borderRadius = "var(--border-radius-sm)"
-      successMessage.style.marginBottom = "1rem"
-      successMessage.style.textAlign = "center"
 
-      if (form.closest("#login-form")) {
-        successMessage.textContent = "Вхід успішний!"
-      } else {
-        successMessage.textContent = "Реєстрація успішна!"
-      }
+// if (isValid) {
+//   const actionUrl = form.getAttribute("action") || form.dataset.action || "models/Login.php"; // путь к серверному скрипту
+//   const formData = new FormData(form);
 
-      form.prepend(successMessage)
+//   fetch(actionUrl, {
+//     method: "POST",
+//     body: formData
+//   })
+//   .then(res => res.json())
+//   .then(result => {
+//     // Удалим старые сообщения
+//     form.querySelectorAll(".success-message, .error-message").forEach(el => el.remove());
 
-      
-      form.reset()
+//     const message = document.createElement("div");
+//     message.style.padding = "1rem";
+//     message.style.borderRadius = "var(--border-radius-sm)";
+//     message.style.marginBottom = "1rem";
+//     message.style.textAlign = "center";
+//     message.style.fontWeight = "bold";
 
-      
-      setTimeout(() => {
-        successMessage.remove()
-      }, 3000)
-    }
+//     if (result.success) {
+//       message.classList.add("success-message");
+//       message.style.backgroundColor = "#28a745";
+//       message.style.color = "#fff";
+//       message.textContent = result.message;
+
+//       form.prepend(message);
+
+//       // Перенаправление при успешном входе
+//       if (form.closest("#login-form")) {
+//         setTimeout(() => window.location.href = "dashboard.php", 1000);
+//       }
+//     } else {
+//       message.classList.add("error-message");
+//       message.style.backgroundColor = "#dc3545";
+//       message.style.color = "#fff";
+//       message.textContent = result.message;
+//       form.prepend(message);
+//     }
+//   })
+//   .catch(() => {
+//     alert("Помилка підключення до сервера.");
+//   });
+// }
+
   })
 })
 
+// Add cart icon to header
+document.addEventListener("DOMContentLoaded", () => {
+  // Create cart icon container
+  const cartIconContainer = document.createElement("div")
+  cartIconContainer.className = "cart-icon-container"
 
-document.addEventListener("DOMContentLoaded", function() {
-  
-  const cartIconContainer = document.createElement("div");
-  cartIconContainer.className = "cart-icon-container";
-  
-  
-  const cartLink = document.createElement("a");
-  cartLink.href = "cart.php";
-  cartLink.className = "cart-link";
-  
-  
-  const cartIcon = document.createElement("svg");
-  cartIcon.className = "icon";
-  cartIcon.setAttribute("viewBox", "0 0 24 24");
+  // Create cart link
+  const cartLink = document.createElement("a")
+  cartLink.href = "cart.php"
+  cartLink.className = "cart-link"
+
+  // Create cart icon
+  const cartIcon = document.createElement("svg")
+  cartIcon.className = "icon"
+  cartIcon.setAttribute("viewBox", "0 0 24 24")
   cartIcon.innerHTML = `
     <circle cx="9" cy="21" r="1"></circle>
     <circle cx="20" cy="21" r="1"></circle>
     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-  `;
-  
-  
-  const cartCount = document.createElement("span");
-  cartCount.className = "cart-count";
-  cartCount.id = "cart-count";
-  cartCount.textContent = "0";
-  
-  
-  cartLink.appendChild(cartIcon);
-  cartIconContainer.appendChild(cartLink);
-  cartIconContainer.appendChild(cartCount);
-  
-  
-  const socialLinks = document.querySelector(".social-links");
-  if (socialLinks) {
-    socialLinks.parentNode.insertBefore(cartIconContainer, socialLinks);
-  }
-  
-  
-  const cartScript = document.createElement("script");
-  cartScript.src = "cart.js";
-  document.body.appendChild(cartScript);
+  `
 
-});
+  // Create cart count
+  const cartCount = document.createElement("span")
+  cartCount.className = "cart-count"
+  cartCount.id = "cart-count"
+  cartCount.textContent = "0"
+
+  // Append elements
+  cartLink.appendChild(cartIcon)
+  cartIconContainer.appendChild(cartLink)
+  cartIconContainer.appendChild(cartCount)
+
+  // Find social links container and insert cart icon before it
+  const socialLinks = document.querySelector(".social-links")
+  if (socialLinks) {
+    socialLinks.parentNode.insertBefore(cartIconContainer, socialLinks)
+  }
+
+  // Load cart.js script
+  const cartScript = document.createElement("script")
+  cartScript.src = "cart.js"
+  document.body.appendChild(cartScript)
+})

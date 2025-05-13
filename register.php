@@ -7,7 +7,7 @@
                 <h2 class="auth-title">Створення аккаунта</h2>
                 <p class="auth-subtitle">Зареєструйтесь, щоб отримати доступ до всіх можливостей платформи</p>
                 
-                <form class="regist-form">
+                <form class="auth-form">
                     <div class="form-group">
                         <label for="username">Ім'я користувача</label>
                         <div class="input-wrapper">
@@ -63,28 +63,6 @@
                             <input type="password" id="confirm-password" name="confirm-password" placeholder="Підтвердіть пароль" required>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="confirm-password">Оберить дату народження</label>
-                        <div class="input-wrapper">
-                            <svg class="input-icon" viewBox="0 0 24 24">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
-                            <input type="date" id="birthday" name="birthday" placeholder="Обреть дату народження..." required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="confirm-password">Введить свії номер телефону</label>
-                        <div class="input-wrapper">
-                            <svg class="input-icon" viewBox="0 0 24 24">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
-                            <input type="text" id="phone" name="phone" placeholder="+380 66 58 59 846" required pattern="\d*" >
-                        </div>
-                    </div>
                     
                     <div class="form-group">
                         <div class="terms-checkbox">
@@ -109,3 +87,45 @@
 </section>
 
 <?php include './partials/footer.php'; ?>
+
+<script>
+document.querySelector('.auth-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const response = await fetch("models/Registration.php", {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await response.json();
+
+e.target.querySelectorAll(".success-message, .error-message").forEach(el => el.remove());
+
+const message = document.createElement("div");
+message.style.padding = "1rem";
+message.style.borderRadius = "var(--border-radius-sm)";
+message.style.marginBottom = "1rem";
+message.style.textAlign = "center";
+message.style.fontWeight = "bold";
+
+if (result.success) {
+    message.classList.add("success-message");
+    message.style.backgroundColor = "#28a745";
+    message.style.color = "#fff";
+    message.textContent = result.message || "Реєстрація успішна!";
+    e.target.prepend(message);
+
+    setTimeout(() => {
+        window.location.href = "login.php";
+    }, 1500);
+} else {
+    message.classList.add("error-message");
+    message.style.backgroundColor = "#dc3545";
+    message.style.color = "#fff";
+    message.textContent = result.message || "Щось пішло не так...";
+    e.target.prepend(message);
+}
+
+});
+</script>

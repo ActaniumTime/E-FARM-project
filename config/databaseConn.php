@@ -1,18 +1,22 @@
 <?php
+session_start();
 
-    session_start();
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', 'root');
+define('DB_NAME', 'efarm');
 
-    $host = 'localhost';
-    $port = 3306; 
-    $username = 'root';
-    $password = 'root';
-    $database = 'farmproject';
-    $table = 'users';
+// Функция подключения
+function getConnection() {
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-    $connection = new mysqli($host, $username, $password, $database, $port);
-
-    if ($connection->connect_error) {
-        die("Ошибка подключения: " . $connection->connect_error);
+    // Проверка соединения
+    if ($conn->connect_error) {
+        die("Помилка підключення: " . $conn->connect_error);
     }
 
-?>
+    // Установка кодировки
+    $conn->set_charset("utf8mb4");
+
+    return $conn;
+}

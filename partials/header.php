@@ -1,3 +1,4 @@
+<? session_start() ?>
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="assets/css/farmer-profile-styles.css">
     <link rel="stylesheet" href="assets/css/farmer-dashboard-styles.css">
     <link rel="stylesheet" href="assets/css/farmer-news-style.css">
+    <link rel="stylesheet" href="assets/css/farmer-colloboration-style.css">
 
 
 </head>
@@ -37,9 +39,14 @@
                     <span>(+380) 98368-8901</span>
                 </a>
                 <div class="auth-buttons">
-                    <a href="login.php" class="btn btn-sm login-btn">Увійти</a>
-                    <a href="register.php" class="btn btn-sm register-btn">Зарегеструватися</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <a href="buyer-dashboard.php" class="btn btn-sm profile-btn">Профіль</a>
+                    <?php else: ?>
+                        <a href="login.php" class="btn btn-sm login-btn">Увійти</a>
+                        <a href="register.php" class="btn btn-sm register-btn">Зарегеструватися</a>
+                    <?php endif; ?>
                 </div>
+
                 <div class="cart-icon-container">
                     <a href="cart.php" class="cart-icon">
                         <svg class="icon" viewBox="0 0 24 24">
@@ -78,7 +85,7 @@
                 <li><a href="about.php">Про нас</a></li>
                 <li><a href="catalog.php">Каталог</a></li>
                 <li><a href="farmers.php">Фермери</a></li>
-                <li><a href="#">Блог</a></li>
+                <li><a href="farmer-news.php">Новини</a></li>
                 <li><a href="#">Контакти</a></li>
             </ul>
             

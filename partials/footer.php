@@ -101,8 +101,7 @@
     <script src="assets/js/cart.js"></script>
     <script src="assets/js/farmers.js"></script>
     <script src="assets/js/farmer-news.js"></script>
-    <script src="assets/js/RegistrationForm.js"></script>
-    
+    <script src="assets/js/farmer-collobaration.js"></script>
 
 </body>
 </html>

@@ -1805,9 +1805,12 @@
   border-color: var(--primary);
 }
 
-.catalog-filter-toggle,
-.catalog-favorites-toggle {
+.catalog-filter-toggle{
   display: none;
+}
+
+.catalog-favorites-toggle {
+  display: block;
 }
 
 .filter-toggle-btn,

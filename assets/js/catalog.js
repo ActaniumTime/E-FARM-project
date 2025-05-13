@@ -1,302 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-  
-
-  const products = [
-    {
-      id: 1,
-      name: "Фермерське Молоко 3,4%",
-      category: "Молочні продукти",
-      categoryId: "dairy",
-      farmer: "Олександра Харченко",
-      farmerId: "farmer1",
-      price: 51,
-      oldPrice: null,
-      rating: 4.7,
-      ratingCount: 28,
-      image:
-        "https://images.unsplash.com/photo-1563636619-e9143da7973b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      description:
-        "Натуральне фермерське молоко з високим вмістом білка та кальцію. Ідеально підходить для приготування домашніх сирів та йогуртів.",
-      isNew: true,
-      isSale: false,
-      inStock: true,
-      weight: "1000 мл",
-      expiry: "7 днів",
-      images: [
-        "https://images.unsplash.com/photo-1563636619-e9143da7973b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1528750997573-3c83ec3d8b9c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      ],
-      reviews: [
-        {
-          id: 1,
-          author: "Марія Петренко",
-          date: "2023-05-15",
-          rating: 5,
-          text: "Дуже смачне молоко! Натуральне, без добавок. Дітям дуже подобається.",
-        },
-        {
-          id: 2,
-          author: "Іван Ковальчук",
-          date: "2023-04-28",
-          rating: 4,
-          text: "Хороше молоко, але трохи дорого. Проте якість варта своїх грошей.",
-        },
-        {
-          id: 3,
-          author: "Олена Сидоренко",
-          date: "2023-06-10",
-          rating: 5,
-          text: "Найкраще молоко, яке я куштувала! Завжди купую тільки у цього фермера.",
-        },
-        {
-          id: 4,
-          author: "Петро Мельник",
-          date: "2023-07-05",
-          rating: 4,
-          text: "Смачне молоко, але швидко закінчується термін придатності. Треба швидко використовувати.",
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Тушка Домашньої курки",
-      category: "М'ясо та птиця",
-      categoryId: "meat",
-      farmer: "Віктор Литвинчук",
-      farmerId: "farmer2",
-      price: 185,
-      oldPrice: null,
-      rating: 4.5,
-      ratingCount: 16,
-      image:
-        "https://images.unsplash.com/photo-1587593810167-a84920ea0781?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      description:
-        "Домашня курка, вирощена на натуральних кормах без антибіотиків та гормонів росту. М'ясо відрізняється особливим смаком та соковитістю.",
-      isNew: false,
-      isSale: false,
-      inStock: true,
-      weight: "~1.5 кг",
-      expiry: "5 днів",
-      images: [
-        "https://images.unsplash.com/photo-1587593810167-a84920ea0781?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1518492104633-130d0cc84637?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1501560379-5951a742e9a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      ],
-      reviews: [
-        {
-          id: 1,
-          author: "Олег Сидоренко",
-          date: "2023-06-10",
-          rating: 5,
-          text: "Дуже смачна курка! Готував на грилі, вийшло чудово. Рекомендую!",
-        },
-        {
-          id: 2,
-          author: "Наталія Шевченко",
-          date: "2023-05-22",
-          rating: 4,
-          text: "Якісне м'ясо, але трохи дорого. Проте смак відмінний.",
-        },
-        {
-          id: 3,
-          author: "Андрій Коваленко",
-          date: "2023-07-15",
-          rating: 5,
-          text: "Найкраща домашня курка, яку я куштував. Дуже соковита і смачна.",
-        },
-        {
-          id: 4,
-          author: "Тетяна Іванова",
-          date: "2023-08-02",
-          rating: 4,
-          text: "Хороша якість, але доставка трохи затрималась. М'ясо свіже і смачне.",
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: "Ковбаса Салямі Італійська №13",
-      category: "Ковбаси та делікатеси",
-      categoryId: "meat",
-      farmer: "Олександр Орлов",
-      farmerId: "farmer3",
-      price: 180,
-      oldPrice: 210,
-      rating: 4.8,
-      ratingCount: 32,
-      image:
-        "https://images.unsplash.com/photo-1542901031-ec5eeb518e83?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      description:
-        "Традиційна італійська салямі, приготована за старовинним рецептом. Ідеально підходить для бутербродів, піци та закусок до вина.",
-      isNew: false,
-      isSale: true,
-      inStock: true,
-      weight: "300 г",
-      expiry: "30 днів",
-      images: [
-        "https://images.unsplash.com/photo-1542901031-ec5eeb518e83?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1485527691629-8e370684924c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      ],
-      reviews: [
-        {
-          id: 1,
-          author: "Андрій Мельник",
-          date: "2023-07-05",
-          rating: 5,
-          text: "Найкраща салямі, яку я куштував! Дуже ароматна і смачна.",
-        },
-        {
-          id: 2,
-          author: "Ірина Коваль",
-          date: "2023-06-18",
-          rating: 5,
-          text: "Чудовий продукт! Замовляю вже втретє, якість завжди на висоті.",
-        },
-        {
-          id: 3,
-          author: "Петро Іванченко",
-          date: "2023-05-30",
-          rating: 4,
-          text: "Дуже смачна салямі, але ціна трохи висока.",
-        },
-        {
-          id: 4,
-          author: "Оксана Литвин",
-          date: "2023-08-10",
-          rating: 5,
-          text: "Неймовірно смачна салямі! Всім рекомендую, особливо до червоного вина.",
-        },
-        {
-          id: 5,
-          author: "Василь Петренко",
-          date: "2023-07-25",
-          rating: 4,
-          text: "Хороша якість, але порції могли б бути більшими за таку ціну.",
-        },
-      ],
-    },
-    {
-      id: 4,
-      name: "Сир кисломолочний 5%",
-      category: "Молочні продукти",
-      categoryId: "dairy",
-      farmer: "Олександра Харченко",
-      farmerId: "farmer1",
-      price: 69,
-      oldPrice: null,
-      rating: 4.6,
-      ratingCount: 24,
-      image:
-        "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      description:
-        "Ніжний домашній сир з кремовою текстурою. Виготовлений зі свіжого фермерського молока без додавання консервантів.",
-      isNew: false,
-      isSale: false,
-      inStock: true,
-      weight: "500 г",
-      expiry: "5 днів",
-      images: [
-        "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1589881133595-a3c085cb731d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1559561853-08451507cbe7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      ],
-      reviews: [
-        {
-          id: 1,
-          author: "Оксана Литвин",
-          date: "2023-06-25",
-          rating: 5,
-          text: "Дуже смачний сир! Використовую для сирників, виходять неймовірно смачні.",
-        },
-        {
-          id: 2,
-          author: "Василь Петренко",
-          date: "2023-06-02",
-          rating: 4,
-          text: "Хороший сир, але швидко закінчується термін придатності.",
-        },
-        {
-          id: 3,
-          author: "Марина Ковальчук",
-          date: "2023-07-18",
-          text: "Найкращий сир для приготування чизкейків! Завжди беру тільки цей.",
-        },
-        {
-          id: 4,
-          author: "Сергій Бондаренко",
-          date: "2023-08-05",
-          rating: 4,
-          text: "Смачний сир, але хотілося б більше різноманітності у відсотках жирності.",
-        },
-      ],
-    },
-    {
-      id: 5,
-      name: "Мед липовий натуральний",
-      category: "Мед та продукти бджільництва",
-      categoryId: "honey",
-      farmer: "Господарство 'Медовий рай'",
-      farmerId: "farmer5",
-      price: 150,
-      oldPrice: null,
-      rating: 4.9,
-      ratingCount: 41,
-      image:
-        "https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      description:
-        "Натуральний липовий мед з пасіки в екологічно чистому районі. Має ніжний аромат та м'який смак з легкими квітковими нотками.",
-      isNew: true,
-      isSale: false,
-      inStock: true,
-      weight: "500 г",
-      expiry: "24 місяці",
-      images: [
-        "https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1558642891-54be180ea339?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/photo-1471943311424-646960669fbc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-      ],
-      reviews: [
-        {
-          id: 1,
-          author: "Тетяна Мороз",
-          date: "2023-07-10",
-          rating: 5,
-          text: "Найкращий мед, який я куштувала! Дуже ароматний і смачний.",
-        },
-        {
-          id: 2,
-          author: "Сергій Лисенко",
-          date: "2023-06-28",
-          rating: 5,
-          text: "Чудовий мед! Діти їдять із задоволенням.",
-        },
-        {
-          id: 3,
-          author: "Людмила Кравчук",
-          date: "2023-06-15",
-          rating: 5,
-          text: "Дуже якісний продукт. Замовляю регулярно.",
-        },
-        {
-          id: 4,
-          author: "Олег Шевченко",
-          date: "2023-08-12",
-          rating: 5,
-          text: "Неймовірно смачний мед! Використовую для випічки та просто до чаю.",
-        },
-        {
-          id: 5,
-          author: "Наталія Бондар",
-          date: "2023-07-30",
-          rating: 4,
-          text: "Дуже смачний мед, але хотілося б більш зручну упаковку.",
-        },
-      ],
-    },
-  ]
+  const products = window.productsData || []
 
   const productsContainer = document.getElementById("products-container")
   const searchInput = document.getElementById("catalog-search-input")
@@ -398,7 +101,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Modify the modal close buttons event listener
   modalCloseButtons.forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (e) => {
+      // Stop event propagation to prevent the window click handler from firing
+      e.stopPropagation()
+
       if (button.closest("#reviews-modal")) {
         // If closing the reviews modal
         reviewsModal.classList.remove("active")
@@ -503,73 +209,70 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       productCard.innerHTML = `
-          ${badgeHtml}
-          <div class="product-image">
-              <img src="${product.image}" alt="${product.name}">
-          </div>
-          <div class="product-actions">
-              <button class="product-action favorite-action ${isFavorite ? "favorited" : ""}" data-id="${product.id}">
-                  <svg class="icon" viewBox="0 0 24 24">
-                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
-              </button>
+            ${badgeHtml}
+            <div class="product-image">
+                <img src="${product.image}" alt="${product.name}" class="modal-click-open-product" data-id="${product.id}">
+            </div>
+            <div class="product-actions">
+                <button class="product-action favorite-action ${isFavorite ? "favorited" : ""}" data-id="${product.id}">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </button>
 
-              <button class="product-action reviews-action" data-id="${product.id}">
-                  <svg class="icon" viewBox="0 0 24 24">
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                  </svg>
-              </button>
-          </div>
-            <div class="product-content modal-click-open-product" data-id="${product.id}">
-              <div class="product-category">${product.category}</div>
-              <h3 class="product-title">${product.name}</h3>
-              <div class="product-farmer">
-                  <svg class="icon icon-sm" viewBox="0 0 24 24">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                      <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                  <span>${product.farmer}</span>
-              </div>
-              <div class="product-rating">
-                  <div class="stars">
-                      <div class="stars-filled" style="width: ${(product.rating / 5) * 100}%"></div>
-                  </div>
-                  <span class="rating-count">(${product.ratingCount})</span>
+                <button class="product-action reviews-action" data-id="${product.id}">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </button>
+            </div>
+              <div class="product-content">
+                <div class="product-category">${product.category}</div>
+                <h3 class="product-title modal-click-open-product" data-id="${product.id}" style="cursor: pointer;">${product.name}</h3>
+                <div class="product-farmer">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>${product.farmer}</span>
+                </div>
+                <div class="product-rating">
+                    <div class="stars">
+                        <div class="stars-filled" style="width: ${(product.rating / 5) * 100}%"></div>
+                    </div>
+                    <span class="rating-count">(${product.ratingCount})</span>
 
-              </div>
-              <div class="product-description">${product.description}</div>
-              <div class="product-footer">
-                  <div class="product-price">
-                      ${product.oldPrice ? `<span class="product-price-old">${product.oldPrice} грн</span>` : ""}
-                      ${product.price} грн
-                  </div>
-                  ${
-                    product.inStock
-                      ? `<button class="add-to-cart" data-id="${product.id}">
-                          <svg class="icon" viewBox="0 0 24 24">
-                              <path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
-                              <path d="M20 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
-                              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                          </svg>
-                      </button>`
-                      : `<div class="product-status status-sold">Немає в наявності</div>`
-                  }
-              </div>
-          </div>
-        `
+                </div>
+                <div class="product-description">${product.description}</div>
+                <div class="product-footer">
+                    <div class="product-price">
+                        ${product.oldPrice ? `<span class="product-price-old">${product.oldPrice} грн</span>` : ""}
+                        ${product.price} грн
+                    </div>
+                    ${
+                      product.inStock
+                        ? `<button class="add-to-cart" data-id="${product.id}">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
+                                <path d="M20 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                        </button>`
+                        : `<div class="product-status status-sold">Немає в наявності</div>`
+                    }
+                </div>
+            </div>
+          `
 
       productsContainer.appendChild(productCard)
     })
 
+    // Add event listeners after rendering products
     document.querySelectorAll(".favorite-action").forEach((button) => {
       button.addEventListener("click", toggleFavorite)
     })
 
-    document.querySelectorAll(".quick-view-action").forEach((button) => {
-      button.addEventListener("click", showProductModal)
-    })
-
-    document.querySelectorAll(".reviews-action, .reviews-btn").forEach((button) => {
+    document.querySelectorAll(".reviews-action").forEach((button) => {
       button.addEventListener("click", (e) => {
         const productId = Number.parseInt(e.currentTarget.dataset.id)
         showReviewsModal(productId)
@@ -578,6 +281,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll(".add-to-cart").forEach((button) => {
       button.addEventListener("click", addToCart)
+    })
+
+    // Add event listeners for modal opening
+    document.querySelectorAll(".modal-click-open-product").forEach((element) => {
+      element.addEventListener("click", function (e) {
+        e.stopPropagation() // Prevent event bubbling
+        const productId = Number(this.dataset.id)
+        showProductModal({ currentTarget: { dataset: { id: productId } } })
+      })
     })
   }
 
@@ -704,6 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function toggleFavorite(e) {
+    e.stopPropagation() // Prevent event bubbling
     const productId = Number.parseInt(e.currentTarget.dataset.id)
     const index = favorites.indexOf(productId)
 
@@ -754,34 +467,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
       modalFavoriteBtn.classList.toggle("favorited", favorites.includes(productId))
 
-      const thumbnailsContainer = document.querySelector(".product-modal-thumbnails")
-      thumbnailsContainer.innerHTML = ""
+      // Update the add to cart button's data-id
+      const addToCartBtn = document.querySelector(".add-to-cart-btn")
+      if (addToCartBtn) {
+        addToCartBtn.dataset.id = productId
+      }
 
-      product.images.forEach((image, index) => {
-        const thumbnail = document.createElement("div")
-        thumbnail.className = `thumbnail ${index === 0 ? "active" : ""}`
-        thumbnail.innerHTML = `<img src="${image}" alt="${product.name}">`
-        thumbnail.addEventListener("click", () => {
-          document.querySelectorAll(".thumbnail").forEach((t) => t.classList.remove("active"))
-          thumbnail.classList.add("active")
-          modalProductImage.src = image
-        })
-        thumbnailsContainer.appendChild(thumbnail)
+      // Hide all thumbnail containers first
+      document.querySelectorAll(".product-thumbnails-container").forEach((container) => {
+        container.style.display = "none"
       })
+
+      // Show only the thumbnails for the current product
+      const thumbnailsContainer = document.querySelector(
+        `.product-thumbnails-container[data-product-id="${productId}"]`,
+      )
+      if (thumbnailsContainer) {
+        thumbnailsContainer.style.display = "flex"
+
+        // Add click event listeners to thumbnails
+        thumbnailsContainer.querySelectorAll(".thumbnail").forEach((thumbnail) => {
+          thumbnail.addEventListener("click", () => {
+            // Remove active class from all thumbnails
+            thumbnailsContainer.querySelectorAll(".thumbnail").forEach((t) => t.classList.remove("active"))
+            // Add active class to clicked thumbnail
+            thumbnail.classList.add("active")
+            // Update main image
+            modalProductImage.src = thumbnail.dataset.image
+          })
+        })
+      }
 
       productModal.classList.add("active")
       document.body.style.overflow = "hidden"
     }
   }
 
-  document.querySelectorAll(".modal-click-open-product").forEach((element) => {
-    element.addEventListener("click", function () {
-      const productId = Number(this.dataset.id)
-      showProductModal({ currentTarget: { dataset: { id: productId } } })
-    })
-  })
-
   function addToCart(e) {
+    e.stopPropagation() // Prevent event bubbling
     const productId = Number.parseInt(e.currentTarget.dataset.id)
     const product = products.find((p) => p.id === productId)
 
@@ -791,6 +514,24 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         e.currentTarget.classList.remove("added")
       }, 1000)
+
+      // Create a new notification element each time
+      const notification = document.createElement("div")
+      notification.textContent = `${product.name} додано в кошик`
+      notification.style.position = "fixed"
+      notification.style.bottom = "20px"
+      notification.style.right = "20px"
+      notification.style.backgroundColor = "var(--success)"
+      notification.style.color = "var(--white)"
+      notification.style.padding = "15px 20px"
+      notification.style.borderRadius = "var(--border-radius-sm)"
+      notification.style.boxShadow = "var(--box-shadow)"
+      notification.style.zIndex = "1000"
+      notification.style.opacity = "0"
+      notification.style.transform = "translateY(20px)"
+      notification.style.transition = "opacity 0.3s, transform 0.3s"
+
+      document.body.appendChild(notification)
 
       setTimeout(() => {
         notification.style.opacity = "1"
@@ -811,72 +552,97 @@ document.addEventListener("DOMContentLoaded", () => {
   const minusBtn = document.querySelector(".quantity-btn.minus")
   const plusBtn = document.querySelector(".quantity-btn.plus")
 
-  minusBtn.addEventListener("click", () => {
-    const value = Number.parseInt(quantityInput.value)
-    if (value > 1) {
-      quantityInput.value = value - 1
-    }
-  })
+  if (minusBtn && plusBtn && quantityInput) {
+    minusBtn.addEventListener("click", () => {
+      const value = Number.parseInt(quantityInput.value)
+      if (value > 1) {
+        quantityInput.value = value - 1
+      }
+    })
 
-  plusBtn.addEventListener("click", () => {
-    const value = Number.parseInt(quantityInput.value)
-    if (value < 99) {
-      quantityInput.value = value + 1
-    }
-  })
+    plusBtn.addEventListener("click", () => {
+      const value = Number.parseInt(quantityInput.value)
+      if (value < 99) {
+        quantityInput.value = value + 1
+      }
+    })
+  }
 
   const addToCartBtn = document.querySelector(".add-to-cart-btn")
 
-  addToCartBtn.addEventListener("click", () => {
-    if (currentProductId) {
-      const product = products.find((p) => p.id === currentProductId)
-      const quantity = Number.parseInt(quantityInput.value)
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", (e) => {
+      if (currentProductId) {
+        const product = products.find((p) => p.id === currentProductId)
+        const quantity = Number.parseInt(quantityInput.value)
 
-      if (product) {
-        console.log(`Added to cart: ${quantity} x ${product.name}`)
+        if (product) {
+          cartManager.addItem(product, quantity)
 
-        setTimeout(() => {
-          notification.style.opacity = "1"
-          notification.style.transform = "translateY(0)"
-        }, 10)
-
-        setTimeout(() => {
+          // Create a new notification element
+          const notification = document.createElement("div")
+          notification.textContent = `${quantity} x ${product.name} додано в кошик`
+          notification.style.position = "fixed"
+          notification.style.bottom = "20px"
+          notification.style.right = "20px"
+          notification.style.backgroundColor = "var(--success)"
+          notification.style.color = "var(--white)"
+          notification.style.padding = "15px 20px"
+          notification.style.borderRadius = "var(--border-radius-sm)"
+          notification.style.boxShadow = "var(--box-shadow)"
+          notification.style.zIndex = "1000"
           notification.style.opacity = "0"
           notification.style.transform = "translateY(20px)"
+          notification.style.transition = "opacity 0.3s, transform 0.3s"
+
+          document.body.appendChild(notification)
+
           setTimeout(() => {
-            document.body.removeChild(notification)
-          }, 300)
-        }, 3000)
+            notification.style.opacity = "1"
+            notification.style.transform = "translateY(0)"
+          }, 10)
+
+          setTimeout(() => {
+            notification.style.opacity = "0"
+            notification.style.transform = "translateY(20px)"
+            setTimeout(() => {
+              document.body.removeChild(notification)
+            }, 300)
+          }, 3000)
+        }
       }
-    }
-  })
+    })
+  }
 
-  modalFavoriteBtn.addEventListener("click", () => {
-    if (currentProductId) {
-      const index = favorites.indexOf(currentProductId)
+  if (modalFavoriteBtn) {
+    modalFavoriteBtn.addEventListener("click", () => {
+      if (currentProductId) {
+        const index = favorites.indexOf(currentProductId)
 
-      if (index === -1) {
-        favorites.push(currentProductId)
-        modalFavoriteBtn.classList.add("favorited")
-      } else {
-        favorites.splice(index, 1)
-        modalFavoriteBtn.classList.remove("favorited")
+        if (index === -1) {
+          favorites.push(currentProductId)
+          modalFavoriteBtn.classList.add("favorited")
+        } else {
+          favorites.splice(index, 1)
+          modalFavoriteBtn.classList.remove("favorited")
+        }
+
+        localStorage.setItem("favorites", JSON.stringify(favorites))
+        updateFavoritesCount()
+
+        const favoriteBtn = document.querySelector(`.favorite-action[data-id="${currentProductId}"]`)
+        if (favoriteBtn) {
+          favoriteBtn.classList.toggle("favorited", favorites.includes(currentProductId))
+        }
+
+        if (currentFilters.favorites) {
+          renderProducts(filterProducts(products))
+        }
       }
+    })
+  }
 
-      localStorage.setItem("favorites", JSON.stringify(favorites))
-      updateFavoritesCount()
-
-      const favoriteBtn = document.querySelector(`.favorite-action[data-id="${currentProductId}"]`)
-      if (favoriteBtn) {
-        favoriteBtn.classList.toggle("favorited", favorites.includes(currentProductId))
-      }
-
-      if (currentFilters.favorites) {
-        renderProducts(filterProducts(products))
-      }
-    }
-  })
-
+  // Improved modal background click handlers with stopPropagation
   window.addEventListener("click", (e) => {
     if (e.target === reviewsModal) {
       reviewsModal.classList.remove("active")
@@ -896,10 +662,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
+  // Prevent clicks inside modal content from closing the modal
+  document.querySelectorAll(".modal-content").forEach((content) => {
+    content.addEventListener("click", (e) => {
+      e.stopPropagation()
+    })
+  })
+
   function showReviewsModal(productId) {
     const product = products.find((p) => p.id === productId)
 
     if (product) {
+      // Check if product modal is currently active
+      if (productModal.classList.contains("active")) {
+        productModalWasActive = true
+        productModal.classList.remove("active")
+      } else {
+        productModalWasActive = false
+      }
+
       currentProductId = productId
       reviewsProductImage.src = product.image
       reviewsProductName.textContent = product.name
@@ -927,19 +708,19 @@ document.addEventListener("DOMContentLoaded", () => {
     reviewsList.innerHTML = sortedReviews
       .map(
         (review) => `
-        <div class="review-item">
-          <div class="review-header">
-            <div class="review-author">${review.author}</div>
-            <div class="review-date">${formatDate(review.date)}</div>
-          </div>
-          <div class="review-rating">
-            <div class="stars">
-              <div class="stars-filled" style="width: ${(review.rating / 5) * 100}%"></div>
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-author">${review.author}</div>
+              <div class="review-date">${formatDate(review.date)}</div>
             </div>
+            <div class="review-rating">
+              <div class="stars">
+                <div class="stars-filled" style="width: ${(review.rating / 5) * 100}%"></div>
+              </div>
+            </div>
+            <div class="review-text">${review.text}</div>
           </div>
-          <div class="review-text">${review.text}</div>
-        </div>
-      `,
+        `,
       )
       .join("")
   }
@@ -1031,30 +812,46 @@ document.addEventListener("DOMContentLoaded", () => {
     renderProducts(filterProducts(products))
   }
 
-  submitReviewBtn.addEventListener("click", submitReview)
+  if (submitReviewBtn) {
+    submitReviewBtn.addEventListener("click", submitReview)
+  }
 
   // Update the cancel review button handler
-  cancelReviewBtn.addEventListener("click", () => {
-    reviewsModal.classList.remove("active")
+  if (cancelReviewBtn) {
+    cancelReviewBtn.addEventListener("click", (e) => {
+      e.preventDefault() // Prevent form submission
+      e.stopPropagation() // Prevent event bubbling
 
-    // If product modal was active before, restore it
-    if (productModalWasActive) {
-      productModal.classList.add("active")
-      productModalWasActive = false // Reset the flag
-    } else {
-      document.body.style.overflow = ""
-    }
-  })
+      reviewsModal.classList.remove("active")
+
+      // If product modal was active before, restore it
+      if (productModalWasActive) {
+        productModal.classList.add("active")
+        productModalWasActive = false // Reset the flag
+      } else {
+        document.body.style.overflow = ""
+      }
+    })
+  }
 
   // Update the view reviews button handler
-  document.getElementById("view-reviews-btn").addEventListener("click", () => {
-    // Remember that product modal was active
-    productModalWasActive = true
-    // Hide product modal
-    productModal.classList.remove("active")
-    // Show reviews modal
-    showReviewsModal(currentProductId)
-  })
+  if (viewReviewsBtn) {
+    viewReviewsBtn.addEventListener("click", (e) => {
+      e.stopPropagation() // Prevent event bubbling
 
-  reviewForm.addEventListener("submit", submitReview)
+      // Remember that product modal was active
+      productModalWasActive = true
+      // Hide product modal
+      productModal.classList.remove("active")
+      // Show reviews modal
+      showReviewsModal(currentProductId)
+    })
+  }
+
+  if (reviewForm) {
+    reviewForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      submitReview(e)
+    })
+  }
 })
