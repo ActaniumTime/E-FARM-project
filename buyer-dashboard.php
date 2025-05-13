@@ -107,7 +107,6 @@
             </table>
         </div>
 
-        <!-- Favorites Section -->
         <div class="dashboard-section" id="favorites-section">
             <h2>Улюблені товари</h2>
             <div class="favorites-grid">
