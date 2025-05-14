@@ -692,11 +692,10 @@
 }
 
 .farmer-avatar {
-    width: 40px;
-    height: 40px;
+    width:150px;
+    height: 150px;
     border-radius: 50%;
-    overflow: hidden;
-    margin-right: 10px;
+    margin-top: 20px;
 }
 
 .farmer-avatar img {

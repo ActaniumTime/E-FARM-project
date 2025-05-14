@@ -1,30 +1,88 @@
 <!-- Buyer Dashboard -->
-<?php include './partials/header.php'; ?>
+<?php 
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    include './partials/header.php';
+    require_once __DIR__ . '/models/CRUD-oper/farmer.php';
+
+?>
+
+<style>.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.order-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.order-card:hover {
+    transform: scale(1.02);
+}
+
+.order-card h3 {
+    margin-top: 0;
+}
+
+.view-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.view-button:hover {
+    background-color: #45a049;
+}
+</style>
 
 <link rel="stylesheet" href="buyer-dashboard-styles.css">
 
 <div class="dashboard-container">
     <!-- Sidebar -->
     <div class="dashboard-sidebar">
-    <div class="farmer-avatar">
-                <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Іван Петренко">
-            </div>
-            <h3 class="farmer-name" style="text-align: center;">Іван Петренко</h3>
-            <a style="text-align: center;" href="farmer-profile.php?farmer=ivan-petrenko" class="view-public-profile">
-                <svg class="icon icon-sm" viewBox="0 0 24 24">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                </svg>
-            </a>
+        <div class="farmer-avatar">
+            <?php 
+                $avatarPath = getSpecificUserDataByID($_SESSION['user_id'], 'avatar_path'); 
+                $userName = getSpecificUserDataByID($_SESSION['user_id'], 'username');
+            ?>
+            <img src="<?php echo './public/img/' . htmlspecialchars($avatarPath); ?>" alt="Іван Петренко" >
+
+        </div>
+        <h3 class="farmer-name" style="text-align: center;"> <? echo htmlspecialchars($userName); ?></h3>
+        <a style="text-align: center;" href="farmer-profile.php?farmer=ivan-petrenko" class="view-public-profile">
+            <svg class="icon icon-sm" viewBox="0 0 24 24">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+        </a>
 
         <nav class="dashboard-nav">
             <ul>
                 <li><a href="#" class="dashboard-nav-item active" data-section="profile-section">Профіль</a></li>
                 <li><a href="#" class="dashboard-nav-item" data-section="orders-section">Мої покупки</a></li>
-                <li><a href="farmer-dashboard.php" class="dashboard-nav-item" data-section="external">Перейти до кабинету фермера</a></li>
+                <li>
+                    <?php  
+                        echo '<a href="farmer-dashboard.php?id=' . $_SESSION['user_id'] . '" class="dashboard-nav-item" data-section="external">Перейти до кабинету фермера</a>';
+                    ?>
+                    
+                </li>
             </ul>
         </nav>
+        
     </div>
 
 
@@ -78,37 +136,32 @@
 
         <div class="dashboard-section" id="orders-section">
             <h2>Історія покупок</h2>
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Дата</th>
-                        <th>Продавець</th>
-                        <th>Сума</th>
-                        <th>Статус</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#ORD-00123</td>
-                        <td>05.05.2025</td>
-                        <td>Зелений сад</td>
-                        <td>₴450</td>
-                        <td>Доставлено</td>
-                    </tr>
-                    <tr>
-                        <td>#ORD-00119</td>
-                        <td>01.05.2025</td>
-                        <td>Органік ферма</td>
-                        <td>₴320</td>
-                        <td>Скасовано</td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <?php
+                $orders = GetAllOrdersByUserID($_SESSION['user_id']); // передай ID текущего пользователя
+            ?>
+
+            <div class="cards-container">
+                <?php foreach ($orders as $order): ?>
+                    <div class="order-card">
+                        <h3>Замовлення #<?= htmlspecialchars($order['OrderID']) ?></h3>
+                        <p><strong>Сума:</strong> ₴<?= number_format($order['TotalAmount'], 2) ?></p>
+                        <p><strong>Статус:</strong> <?= htmlspecialchars($order['Status']) ?></p>
+                        <p><strong>Дата:</strong> <?= date('d.m.Y H:i', strtotime($order['CreatedAt'])) ?></p>
+                        <a href="orderInfo.php?id=<?= urlencode($order['OrderID']) ?>" class="view-button">Переглянути</a>
+                    </div>
+                <?php endforeach; ?>
+                <?php if (empty($orders)): ?>
+                    <p>Немає замовлень.</p>
+                <?php endif; ?>
+            </div>
+
+
+
         </div>
 
         <div class="dashboard-section" id="favorites-section">
-            <h2>Улюблені товари</h2>
+            <h2>Улюблені товари (А ИХ НЕТУ НАХУЙ)</h2>
             <div class="favorites-grid">
                 <div class="product-card">
                     <img src="/images/tomatoes.jpg" alt="Помідори">
@@ -134,6 +187,8 @@
 </div>
 
 <script>
+    
+
     document.querySelectorAll('.dashboard-nav-item').forEach(item => {
         item.addEventListener('click', function(e) {
             const sectionId = this.getAttribute('data-section');
