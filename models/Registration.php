@@ -1,5 +1,4 @@
     <?php
-// Включаем вывод ошибок
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -9,7 +8,6 @@ $conn = getConnection();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
 
-    // Проверяем, что все данные пришли
     $username         = trim($_POST['username'] ?? '');
     $email            = trim($_POST['email'] ?? '');
     $password         = $_POST['password'] ?? '';

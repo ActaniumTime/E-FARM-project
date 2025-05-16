@@ -1,9 +1,9 @@
 <?php
 
     require_once __DIR__ . '/../../config/databaseConn.php';
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);    
+    // ini_set('display_errors', 1);
+    // ini_set('display_startup_errors', 1);
+    // error_reporting(E_ALL);    
 
 function updateUser($id, $userName, $email, $address, $avPath, $cardnum, $age){
     $conn = getConnection();
@@ -147,5 +147,135 @@ function GetAllDataAboutProductByProductID($id){
     $stmt->close();
     return [];
 }
+
+function GerFarmerDataByUserID($id){
+    $conn = getConnection();
+    $sql = "SELECT isFarmer FROM users WHERE id=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $id); 
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $data = $result->fetch_assoc();
+            $temp = $data['isFarmer'];
+            $sql2 = "SELECT * FROM farmers WHERE = id?";
+            $stmt2 = $conn->prepare($sql2);
+            $stmt2->bind_param('i', $temp); 
+            if ($stmt2->execute()) {
+                $data = $result->fetch_assoc();
+                $stmt->close();
+                return $data;
+            } else {
+                $stmt->close();
+                return null;
+            }
+        } else{
+            $stmt->close();
+            return null;
+        }
+    }
+    $stmt->close();
+    return null;
+
+}
+
+
+function getSpecificFarmerDataByID($id, $fieldName){
+    $conn = getConnection();
+    $allowedFields = [
+        'id', 'name', 'description', 'image', 'registration_date',
+        'location', 'since', 'bio', 'age', 'phone', 'email', 
+        'website', 'rating', 'rating_count', 'UserID'
+    ];
+
+    if (!in_array($fieldName, $allowedFields)) {
+
+        return null; 
+    }
+    $sql = "SELECT `$fieldName` FROM farmers WHERE UserID=?";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        return false; 
+    }
+
+    $stmt->bind_param('i', $id); 
+
+    if($stmt->execute()){
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $stmt->close();
+            return $row[$fieldName];
+        } else {
+            $stmt->close();
+            return null; 
+        }
+    } else {
+        $stmt->close();
+        return null; 
+    }
+}
+
+function getAllFarmerOrdersByFarmerID($id){
+    $conn = getConnection();
+    $sql = "SELECT * FROM orders WHERE FarmerID=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $id); 
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+            return $data;
+        }
+    }
+    $stmt->close();
+    return [];
+}
+
+    function getAllNews() {
+        $conn = getConnection();
+        $sql = "SELECT * FROM news";
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            $news = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $row['content'] = json_decode($row['content'], true);
+                $row['images'] = json_decode($row['images'], true);
+                $news[] = $row;
+            }
+
+            $stmt->close();
+            return $news;
+        }
+
+        $stmt->close();
+        return null;
+    }
+
+    function getNewsById($id) {
+    $conn = getConnection();
+    $sql = "SELECT * FROM news WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $id);
+
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $row['content'] = json_decode($row['content'], true);
+            $row['images'] = json_decode($row['images'], true);
+            $stmt->close();
+            return $row;
+        }
+    }
+
+    $stmt->close();
+    return null;
+}
+
 
 ?>

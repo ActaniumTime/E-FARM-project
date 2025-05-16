@@ -1,4 +1,12 @@
-<?php include './partials/header.php'; ?>
+<?php include './partials/header.php'; 
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+?>
 
 <section class="checkout-section">
     <div class="container">

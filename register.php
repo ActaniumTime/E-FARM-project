@@ -1,5 +1,12 @@
 <?php include './partials/header.php'; ?>
 
+<style>
+    .form-group input, .form-group select, .form-group textarea{
+
+        padding: 10px 42px !important; 
+    }
+</style>
+
 <section class="auth-section">
     <div class="container">
         <div class="auth-container">
@@ -38,19 +45,19 @@
                                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                             </svg>
                             <input type="password" id="password" name="password" placeholder="Введіть пароль" required>
-                            <button type="button" class="password-toggle">
-                                <svg class="icon" viewBox="0 0 24 24">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
-                            </button>
+                            <!--<button type="button" class="password-toggle">-->
+                            <!--    <svg class="icon" viewBox="0 0 24 24">-->
+                            <!--        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>-->
+                            <!--        <circle cx="12" cy="12" r="3"></circle>-->
+                            <!--    </svg>-->
+                            <!--</button>-->
                         </div>
-                        <div class="password-strength">
-                            <div class="strength-bar">
-                                <div class="strength-progress" style="width: 0%"></div>
-                            </div>
-                            <span class="strength-text">Надійність паролю</span>
-                        </div>
+                        <!--<div class="password-strength">-->
+                        <!--    <div class="strength-bar">-->
+                        <!--        <div class="strength-progress" style="width: 0%"></div>-->
+                        <!--    </div>-->
+                        <!--    <span class="strength-text">Надійність паролю</span>-->
+                        <!--</div>-->
                     </div>
                     
                     <div class="form-group">

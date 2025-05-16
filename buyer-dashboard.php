@@ -1,10 +1,11 @@
 <!-- Buyer Dashboard -->
 <?php 
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    // ini_set('display_errors', 1);
+    // ini_set('display_startup_errors', 1);
+    // error_reporting(E_ALL);
     include './partials/header.php';
     require_once __DIR__ . '/models/CRUD-oper/farmer.php';
+
 
 ?>
 
@@ -48,7 +49,6 @@
 }
 </style>
 
-<link rel="stylesheet" href="buyer-dashboard-styles.css">
 
 <div class="dashboard-container">
     <!-- Sidebar -->
@@ -58,7 +58,7 @@
                 $avatarPath = getSpecificUserDataByID($_SESSION['user_id'], 'avatar_path'); 
                 $userName = getSpecificUserDataByID($_SESSION['user_id'], 'username');
             ?>
-            <img src="<?php echo './public/img/' . htmlspecialchars($avatarPath); ?>" alt="Іван Петренко" >
+            <img src="<?php echo './public/img/' . htmlspecialchars($avatarPath); ?>" alt="" >
 
         </div>
         <h3 class="farmer-name" style="text-align: center;"> <? echo htmlspecialchars($userName); ?></h3>
@@ -76,10 +76,12 @@
                 <li><a href="#" class="dashboard-nav-item" data-section="orders-section">Мої покупки</a></li>
                 <li>
                     <?php  
-                        echo '<a href="farmer-dashboard.php?id=' . $_SESSION['user_id'] . '" class="dashboard-nav-item" data-section="external">Перейти до кабинету фермера</a>';
+                        require_once __DIR__ . '/models/GetData/user.php'; // подключи файл, где есть функция получения данных
+
+                        $isFarmer = getSpecificUserDataByID($_SESSION['user_id'], 'isFarmer');
                     ?>
-                    
                 </li>
+
             </ul>
         </nav>
         
@@ -96,11 +98,6 @@
             </div>
 
             <div class="form-group">
-                <label for="userID">UserID</label>
-                <input type="text" id="userID" name="userID" placeholder="Ваш унікальний ID">
-            </div>
-
-            <div class="form-group">
                 <label for="userName">Ім'я користувача</label>
                 <input type="text" id="userName" name="userName" placeholder="Введіть ім'я користувача">
             </div>
@@ -110,10 +107,10 @@
                 <input type="number" id="age" name="age" placeholder="Введіть ваш вік">
             </div>
 
-            <div class="form-group">
-                <label for="dateOfBD">Дата народження</label>
-                <input type="date" id="dateOfBD" name="dateOfBD">
-            </div>
+            <!--<div class="form-group">-->
+            <!--    <label for="dateOfBD">Дата народження</label>-->
+            <!--    <input type="date" id="dateOfBD" name="dateOfBD">-->
+            <!--</div>-->
 
             <div class="form-group">
                 <label for="email">Email</label>
@@ -133,6 +130,46 @@
             <button type="submit" class="btn btn-primary">Зберегти зміни</button>
         </form>
     </div>
+
+<script>
+    const userId = <?= json_encode($_SESSION['user_id']) ?>;
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        fetch(`models/GetData/getUserData.php?id=${encodeURIComponent(userId)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Помилка при завантаженні даних користувача');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!data || data.success === false) {
+                    console.error('Помилка у відповіді:', data.message || 'Невідома помилка');
+                    return;
+                }
+                document.getElementById('userName').value = data.username || '';
+                document.getElementById('age').value = data.age || '';
+                document.getElementById('email').value = data.email || '';
+                document.getElementById('cardNumber').value = data.card_number || '';
+                document.getElementById('address').value = data.address || '';
+                
+
+                if (data.avatar_path) {
+                    const fileInput = document.getElementById('profileImage');
+                    const preview = document.createElement('img');
+                    // preview.src = `uploads/avatars/${data.avatar_path}`;
+                    preview.style.maxWidth = '100px';
+                    fileInput.parentNode.insertBefore(preview, fileInput.nextSibling);
+                }
+            })
+            .catch(error => {
+                console.error('Сталася помилка:', error);
+            });
+    });
+</script>
+
+
 
         <div class="dashboard-section" id="orders-section">
             <h2>Історія покупок</h2>
@@ -158,30 +195,6 @@
 
 
 
-        </div>
-
-        <div class="dashboard-section" id="favorites-section">
-            <h2>Улюблені товари (А ИХ НЕТУ НАХУЙ)</h2>
-            <div class="favorites-grid">
-                <div class="product-card">
-                    <img src="/images/tomatoes.jpg" alt="Помідори">
-                    <h3>Помідори органічні</h3>
-                    <p>₴45 / кг</p>
-                    <div class="buttons-acts">
-                        <button class="btn btn-outline">Перейти до товару</button>
-                        <button class="btn btn-sm btn-danger">Видалити</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <img src="/images/apples.jpg" alt="Яблука">
-                    <h3>Яблука органічні</h3>
-                    <p>₴40 / кг</p>
-                    <div class="buttons-acts">
-                        <button class="btn btn-outline">Перейти до товару</button>
-                        <button class="btn btn-sm btn-danger">Видалити</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -215,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         fetch('./models/updateBuyerData.php', {
             method: 'POST',
-            body: formData, // НЕ указываем Content-Type вручную!
+            body: formData, 
         })
         .then(async response => {
             const contentType = response.headers.get('content-type');

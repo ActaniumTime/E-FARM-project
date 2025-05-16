@@ -3,6 +3,8 @@
 <?php 
 require_once './models/GetData/products.php'; 
 $productsData = getProducts();
+session_start();
+
 ?>
 
 
@@ -58,7 +60,7 @@ $productsData = getProducts();
 
         <div class="catalog-container">
             <div class="catalog-sidebar">
-                <div class="filter-section">
+                <!-- <div class="filter-section">
                     <h3 class="filter-title">Категорії</h3>
                     <div class="filter-options" id="categories-filter">
                         <?php foreach ($categories as $category): ?>
@@ -69,7 +71,7 @@ $productsData = getProducts();
                             </label>
                         <?php endforeach; ?>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="filter-section">
                     <h3 class="filter-title">Ціна</h3>
@@ -242,15 +244,14 @@ $productsData = getProducts();
                         <!-- Reviews will be loaded here via JavaScript -->
                     </div>
                 </div>
-                
                 <div class="add-review-container">
-                    <h4>Залишити відгук</h4>
+                    
+
                     <form id="review-form">
-                        <div class="form-group">
-                            <label for="review-name">Ваше ім'я</label>
-                            <input type="text" id="review-name" required placeholder="Введіть ваше ім'я">
-                        </div>
                         
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                    <h4>Залишити відгук</h4>
+
                         <div class="form-group">
                             <label>Ваша оцінка</label>
                             <div class="star-rating">
@@ -277,6 +278,10 @@ $productsData = getProducts();
                             <button type="submit" class="btn btn-primary" id="submit-review">Відправити відгук</button>
                         </div>
                     </form>
+                    <?php else: ?>
+                    <a href="login.php" class="btn btn-sm login-btn">Увійти щоб залишити відгук</a>
+                    <?php endif; ?>
+
                 </div>
             </div>
         </div>
@@ -328,7 +333,7 @@ $productsData = getProducts();
                                 <input type="number" value="1" min="1" max="99" class="quantity-input">
                                 <button class="quantity-btn plus">+</button>
                             </div>
-                            <button class="btn btn-primary add-to-cart-btn add-to-cart" data-id="3">
+                            <button style="height: 56px;" class="btn btn-primary add-to-cart-btn add-to-cart" data-id="3">
                                 <svg class="icon" viewBox="0 0 24 24">
                                     <path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
                                     <path d="M20 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
@@ -336,11 +341,7 @@ $productsData = getProducts();
                                 </svg>
                                 <span>Додати в кошик</span>
                             </button>
-                            <button class="btn btn-outline favorite-btn" id="modal-favorite-btn">
-                                <svg class="icon" viewBox="0 0 24 24">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                </svg>
-                            </button>
+                      
                         </div>
                         <div class="product-modal-details">
                             <div class="detail-item">

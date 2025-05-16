@@ -431,9 +431,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("favorites", JSON.stringify(favorites))
     updateFavoritesCount()
 
-    if (currentProductId === productId && productModal.classList.contains("active")) {
-      modalFavoriteBtn.classList.toggle("favorited", favorites.includes(productId))
-    }
+
 
     if (currentFilters.favorites) {
       renderProducts(filterProducts(products))
@@ -465,7 +463,6 @@ document.addEventListener("DOMContentLoaded", () => {
       modalProductStock.textContent = product.inStock ? "В наявності" : "Немає в наявності"
       modalProductStock.className = product.inStock ? "detail-value in-stock" : "detail-value out-of-stock"
 
-      modalFavoriteBtn.classList.toggle("favorited", favorites.includes(productId))
 
       // Update the add to cart button's data-id
       const addToCartBtn = document.querySelector(".add-to-cart-btn")
@@ -669,7 +666,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  function showReviewsModal(productId) {
+  async function showReviewsModal(productId) {
     const product = products.find((p) => p.id === productId)
 
     if (product) {
@@ -680,6 +677,16 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         productModalWasActive = false
       }
+      
+        try {
+    const res = await fetch(`models/add_reviews.php?product_id=${productId}`)
+    const reviews = await res.json()
+    renderReviews(reviews)
+  } catch (err) {
+    console.error(err)
+    reviewsList.innerHTML = '<div class="no-reviews-message">Не вдалося завантажити відгуки.</div>'
+  }
+      
 
       currentProductId = productId
       reviewsProductImage.src = product.image
@@ -730,7 +737,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return new Date(dateString).toLocaleDateString("uk-UA", options)
   }
 
-  function submitReview(e) {
+  async function submitReview(e) {
     e.preventDefault()
 
     const product = products.find((p) => p.id === currentProductId)
@@ -743,13 +750,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const rating = Number.parseInt(ratingValue.value)
-    const name = reviewName.value.trim()
     const text = reviewText.value.trim()
 
-    if (!name) {
-      alert("Будь ласка, введіть ваше ім'я")
-      return
-    }
+    // if (!name) {
+    //   alert("Будь ласка, введіть ваше ім'я")
+    //   return
+    // }
 
     if (!text) {
       alert("Будь ласка, напишіть відгук")
@@ -778,6 +784,28 @@ document.addEventListener("DOMContentLoaded", () => {
     renderReviews(product.reviews)
 
     reviewForm.reset()
+
+    const payload = { author: name, rating, text }
+
+  try {
+    const res = await fetch(`models/add_reviews.php?product_id=${currentProductId}`, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify(payload),
+    })
+
+    if (!res.ok) throw new Error('Network response was not ok')
+
+    const reviews = await (await fetch(`models/add_reviews.php?product_id=${currentProductId}`)).json()
+    renderReviews(reviews)
+
+    reviewForm.reset()
+    showToast('Дякуємо за ваш відгук!')
+  } catch (err) {
+    console.error(err)
+    // alert('Помилка під час збереження відгуку', true)
+  }
+
 
     const notification = document.createElement("div")
     notification.textContent = "Дякуємо за ваш відгук!"

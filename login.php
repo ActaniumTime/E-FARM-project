@@ -1,5 +1,12 @@
 <?php include './partials/header.php'; ?>
 
+<style>
+    .form-group input, .form-group select, .form-group textarea{
+
+        padding: 10px 42px !important; 
+    }
+</style>
+
 <section class="auth-section">
     <div class="container">
         <div class="auth-container">
@@ -28,21 +35,17 @@
                             </svg>
                             <input type="password" id="password" name="password" placeholder="Введіть пароль" required>
                             <button type="button" class="password-toggle">
-                                <svg class="icon" viewBox="0 0 24 24">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
                             </button>
                         </div>
                     </div>
                     
-                    <div class="form-options">
-                        <div class="remember-me">
-                            <input type="checkbox" id="remember" name="remember">
-                            <label for="remember">Запам'ятати мене</label>
-                        </div>
-                        <a href="#" class="forgot-password">Забули пароль?</a>
-                    </div>
+                    <!--<div class="form-options">-->
+                        <!--<div class="remember-me">-->
+                        <!--    <input type="checkbox" id="remember" name="remember">-->
+                        <!--    <label for="remember">Запам'ятати мене</label>-->
+                        <!--</div>-->
+                    <!--    <a href="#" class="forgot-password">Забули пароль?</a>-->
+                    <!--</div>-->
                     
                     <button type="submit" class="btn btn-primary btn-block">Увійти</button>
                 </form>
@@ -62,7 +65,7 @@
 document.querySelector('.auth-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const form = e.target; // 🔴 Этого не хватает
+    const form = e.target; 
     const formData = new FormData(form);
 
     const response = await fetch("models/Login.php", {
@@ -72,7 +75,6 @@ document.querySelector('.auth-form').addEventListener('submit', async (e) => {
 
     const result = await response.json();
 
-    // Очистка предыдущих сообщений
     form.querySelectorAll(".success-message, .error-message").forEach(el => el.remove());
 
     const message = document.createElement("div");

@@ -1,4 +1,10 @@
-<?php include './partials/header.php'; ?>
+<?php include './partials/header.php'; 
+require_once './models/GetData/farmers_data.php';
+
+// Чтение параметров (если нужны фильтры)
+$farmers = array_slice(getFarmers(), 0, 3);
+
+?>
 
 
 
@@ -10,7 +16,7 @@
             <p class="hero-subtitle">Натуральні продукти від місцевих фермерів з доставкою</p>
             <div class="hero-buttons">
                 <a href="#" class="btn btn-primary btn-lg btn-icon">
-                    <span>Перейти в каталог</span>
+                    <span onclick="window.location.href='catalog.php'">Перейти в каталог</span>
                     <svg class="icon" viewBox="0 0 24 24">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
@@ -33,7 +39,6 @@
                 <div class="category-content">
                     <h3 class="category-title">Овочі</h3>
                     <p class="category-description">Свіжі сезонні овочі від місцевих фермерів</p>
-                    <a href="#" class="btn btn-outline">Переглянути</a>
                 </div>
             </div>
             
@@ -44,7 +49,6 @@
                 <div class="category-content">
                     <h3 class="category-title">Фрукти</h3>
                     <p class="category-description">Соковиті та ароматні фрукти з власних садів</p>
-                    <a href="#" class="btn btn-outline">Переглянути</a>
                 </div>
             </div>
             
@@ -55,7 +59,6 @@
                 <div class="category-content">
                     <h3 class="category-title">М'ясо</h3>
                     <p class="category-description">Натуральне м'ясо від перевірених господарств</p>
-                    <a href="#" class="btn btn-outline">Переглянути</a>
                 </div>
             </div>
             
@@ -66,82 +69,45 @@
                 <div class="category-content">
                     <h3 class="category-title">Молочні продукти</h3>
                     <p class="category-description">Свіжі молочні продукти без консервантів</p>
-                    <a href="#" class="btn btn-outline">Переглянути</a>
                 </div>
             </div>
         </div>
         
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="#" class="btn btn-primary">Всі категорії</a>
-        </div>
     </div>
 </section>
 
 <!-- Farmers Section -->
 <section class="farmers section">
     <div class="container">
-        <h2 class="section-title">Наши ферми</h2>
+        <h2 class="section-title">Наші фермери</h2>
         <div class="farmers-grid">
-            <div class="farmer-card">
-                <div class="farmer-image">
-                    <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Еко-ферма Зелений луг">
-                </div>
-                <div class="farmer-content">
-                    <h3 class="farmer-name">Еко-ферма "Зелений луг"</h3>
-                    <div class="farmer-location">
-                        <svg class="icon" viewBox="0 0 24 24">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <span>Полтавська область</span>
+            <?php if (empty($farmers)): ?>
+                <p>Фермерів не знайдено.</p>
+            <?php else: ?>
+                <?php foreach ($farmers as $farmer): ?>
+                    <div class="farmer-card">
+                        <div class="farmer-image">
+                            <img src="<?= htmlspecialchars($farmer['image']) ?>" alt="<?= htmlspecialchars($farmer['name']) ?>">
+                        </div>
+                        <div class="farmer-content">
+                            <h3 class="farmer-name"><?= htmlspecialchars($farmer['name']) ?></h3>
+                            <div class="farmer-location">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <span><?= htmlspecialchars($farmer['location']) ?></span>
+                            </div>
+                            <p class="farmer-description"><?= htmlspecialchars($farmer['description']) ?></p>
+                            <a href="farmer-profile.php?id=<?= $farmer['id'] ?>" class="btn btn-outline">Переглянути товари</a>
+                        </div>
                     </div>
-                    <p class="farmer-description">Еко-продукти з Полтавщини, вирощені з любов'ю до природи</p>
-                    <a href="#" class="btn btn-outline">Переглянути товари</a>
-                </div>
-            </div>
-            
-            <div class="farmer-card">
-                <div class="farmer-image">
-                    <img src="https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?q=80&w=1978&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Ферма Молочний край">
-                </div>
-                <div class="farmer-content">
-                    <h3 class="farmer-name">Ферма "Молочний край"</h3>
-                    <div class="farmer-location">
-                        <svg class="icon" viewBox="0 0 24 24">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <span>Київська область</span>
-                    </div>
-                    <p class="farmer-description">Натуральні молочні продукти з власної ферми</p>
-                    <a href="#" class="btn btn-outline">Переглянути товари</a>
-                </div>
-            </div>
-            
-            <div class="farmer-card">
-                <div class="farmer-image">
-                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Господарство Медовий рай">
-                </div>
-                <div class="farmer-content">
-                    <h3 class="farmer-name">Господарство "Медовий рай"</h3>
-                    <div class="farmer-location">
-                        <svg class="icon" viewBox="0 0 24 24">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <span>Закарпатська область</span>
-                    </div>
-                    <p class="farmer-description">Мед та продукти бджільництва з екологічно чистих регіонів</p>
-                    <a href="#" class="btn btn-outline">Переглянути товари</a>
-                </div>
-            </div>
-        </div>
-        
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="#" class="btn btn-primary">Всі фермери</a>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </section>
+
 
 <!-- Products Section -->
 <section class="products section">
@@ -150,9 +116,6 @@
             <h2 class="products-title">Новинки та найпопулярніші</h2>
             <div class="products-nav">
                 <div class="products-nav-item active">Всі</div>
-                <div class="products-nav-item">Новинки</div>
-                <div class="products-nav-item">Популярні</div>
-                <div class="products-nav-item">Акції</div>
             </div>
         </div>
         
@@ -160,7 +123,7 @@
             <div class="product-card">
                 <div class="product-badge badge-new">Новинка</div>
                 <div class="product-image">
-                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-gtEACBCZKXwWdteoSN4uJbTUZcRcRG.png" alt="Фермерське Молоко">
+                    <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Фермерське Молоко">
                 </div>
                 <div class="product-content">
                     <div class="product-category">Молочна продукція</div>
@@ -168,14 +131,13 @@
                     <div class="product-farmer">від Олександри Харченко</div>
                     <div class="product-footer">
                         <div class="product-price">51 грн</div>
-                        <div class="product-status status-sold">Закінчився</div>
                     </div>
                 </div>
             </div>
             
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-gtEACBCZKXwWdteoSN4uJbTUZcRcRG.png" alt="Тушка Тапака">
+                    <img src="https://images.unsplash.com/photo-1587593810167-a84920ea0781?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Тушка Тапака">
                 </div>
                 <div class="product-content">
                     <div class="product-category">М'ясо та птиця</div>
@@ -183,21 +145,14 @@
                     <div class="product-farmer">від Віктора Литвинчука</div>
                     <div class="product-footer">
                         <div class="product-price">185 грн</div>
-                        <a href="#" class="add-to-cart">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
-                                <path d="M20 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                            </svg>
-                        </a>
                     </div>
                 </div>
             </div>
             
             <div class="product-card">
-                <div class="product-badge badge-sale">-15%</div>
+                <div class="product-badge badge-sale">-14%</div>
                 <div class="product-image">
-                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-gtEACBCZKXwWdteoSN4uJbTUZcRcRG.png" alt="Ковбаса Салямі">
+                    <img src="https://images.unsplash.com/photo-1542901031-ec5eeb518e83?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ковбаса Салямі">
                 </div>
                 <div class="product-content">
                     <div class="product-category">Ковбаси та делікатеси</div>
@@ -208,14 +163,14 @@
                             <span class="product-price-old">210 грн</span>
                             180 грн
                         </div>
-                        <div class="product-status status-sold">Закінчився</div>
+                        <!-- <div class="product-status status-sold">Закінчився</div> -->
                     </div>
                 </div>
             </div>
             
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-gtEACBCZKXwWdteoSN4uJbTUZcRcRG.png" alt="Сир кисломолочний">
+                    <img src="https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Сир кисломолочний">
                 </div>
                 <div class="product-content">
                     <div class="product-category">Молочна продукція</div>
@@ -223,14 +178,9 @@
                     <div class="product-farmer">від Олександри Харченко</div>
                     <div class="product-footer">
                         <div class="product-price">69 грн</div>
-                        <div class="product-status status-sold">Закінчився</div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="#" class="btn btn-primary">Всі товари</a>
         </div>
     </div>
 </section>
