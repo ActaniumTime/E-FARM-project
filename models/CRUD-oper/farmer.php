@@ -19,7 +19,7 @@ function updateUser($id, $userName, $email, $address, $avPath, $cardnum, $age){
         
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
-        return false; // SQL ошибка
+        return false; 
     }
 
     $stmt->bind_param(
@@ -276,6 +276,34 @@ function getAllFarmerOrdersByFarmerID($id){
     $stmt->close();
     return null;
 }
+
+
+function createNews($title, $content, $author_id, $images = [], $Subtitle) {
+    $conn = getConnection();
+    $sql = "INSERT INTO news (title, content, author_id, images, Subtitle)
+            VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        return ['success' => false, 'error' => $conn->error];
+    }
+
+    $contentJson = json_encode($content, JSON_UNESCAPED_UNICODE);
+    $imagesJson = json_encode($images, JSON_UNESCAPED_UNICODE);
+
+    $stmt->bind_param('ssiss', $title, $contentJson, $author_id, $imagesJson, $Subtitle);
+    
+    if ($stmt->execute()) {
+        $insertedId = $stmt->insert_id;
+        $stmt->close();
+        return ['success' => true, 'id' => $insertedId];
+    } else {
+        $error = $stmt->error;
+        $stmt->close();
+        return ['success' => false, 'error' => $error];
+    }
+}
+
 
 
 ?>

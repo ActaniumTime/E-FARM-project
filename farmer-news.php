@@ -1,13 +1,12 @@
 <?php 
 include './partials/header.php';
 require_once __DIR__ . '/models/CRUD-oper/farmer.php';
- ?>
+?>
 
 <link rel="stylesheet" href="farmer-dashboard-styles.css">
 <link rel="stylesheet" href="farmer-news-styles.css">
 
 <div class="dashboard-container">
-    <!-- Main Content -->
     <div class="dashboard-content">
         <div class="section-header">
             <h2>Новини та оновлення</h2>
@@ -52,11 +51,11 @@ require_once __DIR__ . '/models/CRUD-oper/farmer.php';
                                 <?= date("d F Y", strtotime($news['created_at'])) ?>
                             </div>
                             <h3 class="news-title">
-                                <?= htmlspecialchars($news['title']) ?>
+                                <?= htmlspecialchars($news['Subtitle']) ?>
                             </h3>
-                            <p class="news-excerpt">
-                                <?= htmlspecialchars(mb_strimwidth($news['content'][0], 0, 300, '...')) ?>
-                            </p>
+                            <h7 class="news-title">
+                                <?= htmlspecialchars($news['title']) ?>
+                            </h7>
                             <a href="farmer-news-article.php?id=<?= $news['id'] ?>" class="btn-read-more">Читати далі</a>
                         </div>
                     </div>
